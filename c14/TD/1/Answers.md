@@ -101,20 +101,26 @@ J'ai resume le problem de maniere consise et directe
 #### Entrees (e5)
 
 - prix hors taxe
+- carte fidelite
+- reference
+- libele
+- nom
+- points de fidelite
 
 #### Raisonement (e5q2)
 
-Les seules donnes requises sont la quantite des articles et leur prix hors taxe, et comme on suppose qu'un seul article est achete donc on a besoin de seulement le prix
+Les seules donnes requises sont la quantite des articles et leur prix hors taxe, reference, libele, et comme on suppose qu'un seul article est achete donc on a besoin pas besoin du nombre des articles (n=1), et les points de fidelite extrait de la carte
 
 ### Question 3 (e5)
 
 #### Resultats a trouver (e5)
 
 - montant
+- categorie
 
 #### Raisonement (e5q3)
 
-La facture aura le nom et le montant, mais le nom est deja connu selon l'exercise donc il ne fait pas partie des resultat. Et il faut categorizer les client, mais on a pas une facon d'avoir des infos sur la carte de fidelite. Alors le seul resultat est le montant
+La facture aura le nom et le montant, mais le nom est deja connu selon l'exercise donc il ne fait pas partie des resultat. Et il faut categorizer les client, mais on a pas une facon d'avoir des infos sur la carte de fidelite. Alors le seul resultat est le montant, ref, libele
 
 ### Question 4 (e5)
 
