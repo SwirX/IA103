@@ -33,7 +33,7 @@ def calculer_rendement(quant_lait) # quant_lait = quantite du lait
 ```
 
 pt2 math:
-![image](./redaction.jpg)
+![image](./img01.jpg)
 
 ### Question 3 (e4)
 
