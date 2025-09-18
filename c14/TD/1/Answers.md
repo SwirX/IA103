@@ -120,7 +120,7 @@ Les seules donnes requises sont la quantite des articles et leur prix hors taxe,
 
 #### Raisonement (e5q3)
 
-La facture aura le nom et le montant, mais le nom est deja connu selon l'exercise donc il ne fait pas partie des resultat. Et il faut categorizer les client, mais on a pas une facon d'avoir des infos sur la carte de fidelite. Alors le seul resultat est le montant, ref, libele
+La facture aura le nom et le montant, mais le nom est deja connu selon l'exercise donc il ne fait pas partie des resultat. Et il faut categorizer les client. Alors les resultat sont le montant et la categorie.
 
 ### Question 4 (e5)
 
