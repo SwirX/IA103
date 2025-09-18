@@ -15,7 +15,8 @@ IA103/
 │   └── TD/
 │       ├── 1/            # TD1
 │       │   ├── answers/
-│       │   │   └── answer.md        # Mes réponses en Markdown
+│       │   │   ├── answer.md        # Mes réponses en Markdown
+│       │   │   └── ...              # Autres fichiers...
 │       │   └── original/ # Énoncé ou fichier original du formateur
 │       ├── 2/
 │       └── ...
