@@ -5,7 +5,7 @@ L’organisation est faite par **classe** (ex. `c14`, `c12`), puis par type de t
 
 ---
 
-## 📂 Structure du dépôt  
+## 📂 Structure du repo  
 
 ```
 
