@@ -79,11 +79,22 @@
 
 ### Question 3
 
-- chaque personnel a un superieur sauf le directeur
-- chaque cheval a un tatouage apres ses 2 mois
-- un cheval peut avoir un seul proprietaire en un instant
-- chaque cheval a ses parents connus (pere, mere)
+```txt
+LOIS:
+cardinalite (attr --> concept)
+condition
+periodique
+```
 
+- chaque personnel a un superieur sauf le directeur
+- chaque entite Personne a une attribut "FoncPrsn"
+- Chaque element de l'entite Personne a une attribut "SupPrsn" qui est elle meme une entite "Personne"
+- Chaque element d'entite cheval appartient a une seule race
+- On note mensuelment la taille et le poids de chaque entite "Cheval" dans une nouvelle entite "Suivi"
+- Chaque entite "Cheval" possede des attributs "Pere" et "Mere" qui sont eux meme des entites "Cheval"
+- Apres 2 mois on attribut un numero de tatouage a une entite "Cheval"
+- En un instant donne une entite "Cheval" possede un proprietaire qui est un element "Personne"
+- Plusieur elements d'entite cheval participent a plusieurs entites concours
 ### Question 4
 
 - NumUnqChv --> NomChv, RaceChv, ClrChv, PereChv, MereChv, NumTatChv, DrssChv
