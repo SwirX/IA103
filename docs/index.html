@@ -131,122 +131,345 @@
         }
 
         /* Podcasts Section */
-        .podcast-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-        }
-
-        .podcast-card {
+        .podcast-list {
             background: white;
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
         }
 
-        .podcast-card:hover {
-            transform: translateY(-5px);
+        .podcast-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .podcast-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            border-color: #667eea;
+        }
+
+        .podcast-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .podcast-info {
+            flex: 1;
         }
 
         .podcast-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 15px;
             color: #333;
+            margin-bottom: 5px;
         }
 
-        .audio-player {
+        .podcast-meta {
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            gap: 15px;
+        }
+
+        .play-button {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
             width: 100%;
-            margin-bottom: 15px;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        .audio-player audio {
-            width: 100%;
-            border-radius: 10px;
+        .modal-header {
+            padding: 25px;
+            border-bottom: 2px solid #f1f3f4;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
 
-        .subtitles-container {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            max-height: 200px;
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .transcript-container {
+            flex: 1;
+            padding: 25px;
             overflow-y: auto;
-            border: 2px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .subtitles-container.active {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-
-        .subtitles-text {
             line-height: 1.6;
-            font-size: 0.95rem;
-            color: #333;
         }
 
-        .subtitle-word {
+        .transcript-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        .transcript-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: #764ba2;
+        }
+
+        .toggle-btn.active {
+            background: #28a745;
+        }
+
+        .transcript-stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .transcript-stats.active {
+            display: block;
+        }
+
+        .transcript-text {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .speaker-segment {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .speaker-0 {
+            background: #f0f4ff;
+            border-left-color: #667eea;
+        }
+
+        .speaker-1 {
+            background: #fff0f4;
+            border-left-color: #764ba2;
+        }
+
+        .speaker-header {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .speaker-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .speaker-0 .speaker-icon {
+            background: #667eea;
+        }
+
+        .speaker-1 .speaker-icon {
+            background: #764ba2;
+        }
+
+        .transcript-word {
             padding: 2px 1px;
             border-radius: 3px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
         }
 
-        .subtitle-word.active {
+        .transcript-word.active {
             background: #667eea;
             color: white;
             font-weight: 500;
-            transform: scale(1.05);
         }
 
-        .subtitle-word.played {
+        .transcript-word.played {
             background: #e9ecef;
             color: #6c757d;
         }
 
-        .subtitle-word:hover {
+        .transcript-word:hover {
             background: #764ba2;
             color: white;
         }
 
-        .subtitles-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #666;
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 2px solid #f1f3f4;
+            background: #f8f9fa;
         }
 
-        .subtitle-toggle {
-            background: #667eea;
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .audio-controls audio {
+            flex: 1;
+            border-radius: 10px;
+        }
+
+        .download-btn {
+            background: #28a745;
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 10px 15px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             transition: background 0.3s ease;
         }
 
-        .subtitle-toggle:hover {
-            background: #764ba2;
+        .download-btn:hover {
+            background: #218838;
         }
 
-        .subtitle-toggle.disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-        }
+        @media (max-width: 768px) {
+            .modal-content {
+                max-height: 95vh;
+                margin: 10px;
+            }
 
-        .podcast-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: #666;
+            .modal-header {
+                padding: 20px;
+            }
+
+            .transcript-container {
+                padding: 20px;
+            }
+
+            .modal-footer {
+                padding: 15px 20px;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .transcript-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
 
         /* Files Section */
@@ -455,6 +678,68 @@
             </div>
         </div>
 
+        <!-- Podcast Modal -->
+        <div id="podcast-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="modal-close" onclick="closePodcastModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h2 class="modal-title" id="modal-podcast-title">Podcast Title</h2>
+                    <div class="modal-meta" id="modal-podcast-meta">
+                        <span><i class="fas fa-file-audio"></i> MP3</span>
+                        <span><i class="fas fa-clock"></i> Duration: --:--</span>
+                    </div>
+                </div>
+                
+                <div class="transcript-container">
+                    <div class="transcript-controls">
+                        <div>
+                            <h3 style="margin: 0; color: #333;"><i class="fas fa-closed-captioning"></i> Interactive Transcript</h3>
+                            <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9rem;">Click any word to jump to that moment</p>
+                        </div>
+                        <div class="transcript-toggle">
+                            <button class="toggle-btn" id="stats-toggle" onclick="toggleStats()">
+                                <i class="fas fa-chart-bar"></i> Show Stats
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="transcript-stats" class="transcript-stats">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div>
+                                <strong>Language:</strong> <span id="stat-language">--</span>
+                            </div>
+                            <div>
+                                <strong>Confidence:</strong> <span id="stat-confidence">--</span>
+                            </div>
+                            <div>
+                                <strong>Transcription ID:</strong> <span id="stat-id">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="transcript-text" class="transcript-text">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading transcript...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="audio-controls">
+                        <audio id="modal-audio" controls preload="metadata" style="flex: 1;">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <button class="download-btn" id="modal-download">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="file-viewer" class="file-viewer" style="display: none;">
             <div class="viewer-header">
                 <h2 class="viewer-title" id="viewer-title">File Viewer</h2>
@@ -516,58 +801,37 @@
                     return;
                 }
 
-                const gridHTML = await Promise.all(audioFiles.map(async (file, index) => {
+                const listHTML = audioFiles.map((file, index) => {
                     const fileName = file.name.replace(/\.(mp3|wav|m4a)$/i, '');
-                    const audioUrl = `${RAW_BASE}/podcasts/${file.name}`;
-                    const subtitleUrl = `${RAW_BASE}/podcasts/${fileName}.json`;
-                    
-                    // Check if subtitle file exists
-                    let hasSubtitles = false;
-                    try {
-                        const subtitleResponse = await fetch(subtitleUrl, { method: 'HEAD' });
-                        hasSubtitles = subtitleResponse.ok;
-                    } catch (e) {
-                        hasSubtitles = false;
-                    }
+                    const fileExtension = file.name.split('.').pop().toUpperCase();
                     
                     return `
-                        <div class="podcast-card">
-                            <h3 class="podcast-title">${fileName}</h3>
-                            <div class="audio-player">
-                                <audio id="audio-${index}" controls preload="metadata" onloadedmetadata="initializeAudio(${index})">
-                                    <source src="${audioUrl}" type="audio/mpeg">
-                                    Your browser does not support the audio element.
-                                </audio>
+                        <div class="podcast-item" onclick="openPodcastModal('${file.name}', '${fileName}', '${fileExtension}')">
+                            <div class="podcast-icon">
+                                <i class="fas fa-podcast"></i>
                             </div>
-                            ${hasSubtitles ? `
-                                <div class="subtitles-controls">
-                                    <span><i class="fas fa-closed-captioning"></i> Interactive Subtitles</span>
-                                    <button class="subtitle-toggle" onclick="toggleSubtitles(${index})" id="subtitle-btn-${index}">
-                                        Show Subtitles
-                                    </button>
+                            <div class="podcast-info">
+                                <div class="podcast-title">${fileName}</div>
+                                <div class="podcast-meta">
+                                    <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
+                                    <span><i class="fas fa-clock"></i> Click to play</span>
                                 </div>
-                                <div id="subtitles-${index}" class="subtitles-container" style="display: none;">
-                                    <div class="subtitles-text" id="subtitles-text-${index}">
-                                        Loading subtitles...
-                                    </div>
-                                </div>
-                            ` : ''}
-                            <div class="podcast-meta">
-                                <span><i class="fas fa-file-audio"></i> ${file.name.split('.').pop().toUpperCase()}</span>
-                                <span><i class="fas fa-download"></i> <a href="${audioUrl}" download style="color: #667eea; text-decoration: none;">Download</a></span>
                             </div>
+                            <button class="play-button" onclick="event.stopPropagation(); openPodcastModal('${file.name}', '${fileName}', '${fileExtension}')">
+                                <i class="fas fa-play"></i>
+                            </button>
                         </div>
                     `;
-                }));
+                }).join('');
 
-                podcastsContainer.innerHTML = `<div class="podcast-grid">${gridHTML.join('')}</div>`;
-
-                // Load subtitles for each podcast
-                for (let i = 0; i < audioFiles.length; i++) {
-                    const fileName = audioFiles[i].name.replace(/\.(mp3|wav|m4a)$/i, '');
-                    const subtitleUrl = `${RAW_BASE}/podcasts/${fileName}.json`;
-                    await loadSubtitles(i, subtitleUrl);
-                }
+                podcastsContainer.innerHTML = `
+                    <div class="podcast-list">
+                        <h2 style="margin-bottom: 20px; color: #333;">
+                            <i class="fas fa-podcast"></i> Available Podcasts
+                        </h2>
+                        ${listHTML}
+                    </div>
+                `;
 
             } catch (error) {
                 console.error('Error loading podcasts:', error);
@@ -575,120 +839,240 @@
             }
         }
 
-        const podcastData = {};
+        let currentPodcastData = {};
+        let currentAudio = null;
 
-        async function loadSubtitles(index, subtitleUrl) {
+        async function openPodcastModal(fileName, displayName, fileExtension) {
+            const modal = document.getElementById('podcast-modal');
+            const audio = document.getElementById('modal-audio');
+            const audioUrl = `${RAW_BASE}/podcasts/${fileName}`;
+            const transcriptUrl = `${RAW_BASE}/podcasts/${displayName}.json`;
+            
+            // Set up modal
+            document.getElementById('modal-podcast-title').textContent = displayName;
+            document.getElementById('modal-podcast-meta').innerHTML = `
+                <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
+                <span><i class="fas fa-clock"></i> Loading...</span>
+            `;
+            document.getElementById('modal-download').onclick = () => {
+                const a = document.createElement('a');
+                a.href = audioUrl;
+                a.download = fileName;
+                a.click();
+            };
+            
+            // Set up audio
+            audio.src = audioUrl;
+            currentAudio = audio;
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Load transcript
+            await loadTranscript(transcriptUrl, displayName);
+            
+            // Set up audio event listeners
+            setupAudioPlayer();
+            
+            // Update duration when loaded
+            audio.addEventListener('loadedmetadata', () => {
+                const duration = formatTime(audio.duration);
+                document.getElementById('modal-podcast-meta').innerHTML = `
+                    <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
+                    <span><i class="fas fa-clock"></i> ${duration}</span>
+                `;
+            });
+        }
+
+        async function loadTranscript(transcriptUrl, podcastName) {
+            const container = document.getElementById('transcript-text');
+            const statsContainer = document.getElementById('transcript-stats');
+            
             try {
-                const response = await fetch(subtitleUrl);
-                if (!response.ok) return;
+                const response = await fetch(transcriptUrl);
+                if (!response.ok) {
+                    container.innerHTML = '<p style="text-align: center; color: #666;">No transcript available for this podcast.</p>';
+                    return;
+                }
                 
-                const subtitles = await response.json();
-                podcastData[index] = { subtitles, currentWordIndex: -1 };
+                const transcriptData = await response.json();
+                currentPodcastData = transcriptData;
                 
-                // Render subtitles
-                renderSubtitles(index, subtitles);
+                // Update stats
+                document.getElementById('stat-language').textContent = 
+                    `${transcriptData.language_code || 'Unknown'} (${(transcriptData.language_probability * 100 || 0).toFixed(1)}%)`;
+                document.getElementById('stat-confidence').textContent = 
+                    `${(transcriptData.language_probability * 100 || 0).toFixed(1)}%`;
+                document.getElementById('stat-id').textContent = 
+                    transcriptData.transcription_id || 'N/A';
+                
+                // Render transcript
+                renderTranscript(transcriptData.words || []);
                 
             } catch (error) {
-                console.error(`Error loading subtitles for podcast ${index}:`, error);
+                console.error('Error loading transcript:', error);
+                container.innerHTML = '<p style="text-align: center; color: #e74c3c;">Error loading transcript.</p>';
             }
         }
 
-        function renderSubtitles(index, subtitles) {
-            const container = document.getElementById(`subtitles-text-${index}`);
-            if (!container) return;
-
-            // Assuming ElevenLabs format: { words: [{ word: string, start: number, end: number }] }
-            const words = subtitles.words || subtitles;
+        function renderTranscript(words) {
+            const container = document.getElementById('transcript-text');
             
-            const wordsHTML = words.map((wordData, wordIndex) => {
-                const word = wordData.word || wordData.text || wordData;
-                return `<span class="subtitle-word" data-start="${wordData.start}" data-end="${wordData.end}" data-word-index="${wordIndex}" onclick="seekToWord(${index}, ${wordData.start})">${word}</span>`;
-            }).join(' ');
-
-            container.innerHTML = wordsHTML;
-        }
-
-        function initializeAudio(index) {
-            const audio = document.getElementById(`audio-${index}`);
+            // Group words by speaker
+            const speakers = {};
+            let currentSpeaker = null;
+            let currentSegment = [];
             
-            audio.addEventListener('timeupdate', () => {
-                updateSubtitles(index, audio.currentTime);
-            });
-
-            audio.addEventListener('play', () => {
-                const container = document.getElementById(`subtitles-${index}`);
-                if (container && container.style.display !== 'none') {
-                    container.classList.add('active');
+            words.forEach((word, index) => {
+                if (word.type === 'spacing') return; // Skip spacing elements
+                
+                if (word.speaker_id !== currentSpeaker) {
+                    // Save previous segment
+                    if (currentSpeaker !== null && currentSegment.length > 0) {
+                        if (!speakers[currentSpeaker]) speakers[currentSpeaker] = [];
+                        speakers[currentSpeaker].push([...currentSegment]);
+                    }
+                    
+                    // Start new segment
+                    currentSpeaker = word.speaker_id;
+                    currentSegment = [word];
+                } else {
+                    currentSegment.push(word);
                 }
             });
+            
+            // Save final segment
+            if (currentSpeaker !== null && currentSegment.length > 0) {
+                if (!speakers[currentSpeaker]) speakers[currentSpeaker] = [];
+                speakers[currentSpeaker].push([...currentSegment]);
+            }
+            
+            // Render segments chronologically
+            const allSegments = [];
+            Object.keys(speakers).forEach(speakerId => {
+                speakers[speakerId].forEach(segment => {
+                    allSegments.push({ speakerId, segment });
+                });
+            });
+            
+            // Sort by start time
+            allSegments.sort((a, b) => a.segment[0].start - b.segment[0].start);
+            
+            const segmentsHTML = allSegments.map(({ speakerId, segment }) => {
+                const speakerNum = speakerId.replace('speaker_', '');
+                const speakerClass = `speaker-${parseInt(speakerNum) % 2}`;
+                
+                const wordsHTML = segment.map((word, wordIndex) => 
+                    `<span class="transcript-word" data-start="${word.start}" data-end="${word.end}" onclick="seekToTime(${word.start})">${word.text}</span>`
+                ).join('');
+                
+                return `
+                    <div class="speaker-segment ${speakerClass}">
+                        <div class="speaker-header">
+                            <span class="speaker-icon">${parseInt(speakerNum) + 1}</span>
+                            Speaker ${parseInt(speakerNum) + 1}
+                        </div>
+                        <div class="speaker-content">
+                            ${wordsHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = segmentsHTML;
+        }
 
-            audio.addEventListener('pause', () => {
-                const container = document.getElementById(`subtitles-${index}`);
-                if (container) {
-                    container.classList.remove('active');
-                }
+        function setupAudioPlayer() {
+            if (!currentAudio) return;
+            
+            currentAudio.addEventListener('timeupdate', () => {
+                updateTranscriptHighlight(currentAudio.currentTime);
             });
         }
 
-        function updateSubtitles(index, currentTime) {
-            const data = podcastData[index];
-            if (!data || !data.subtitles) return;
-
-            const words = data.subtitles.words || data.subtitles;
-            const container = document.getElementById(`subtitles-text-${index}`);
-            if (!container) return;
-
-            const wordElements = container.querySelectorAll('.subtitle-word');
+        function updateTranscriptHighlight(currentTime) {
+            const words = document.querySelectorAll('.transcript-word');
             
-            words.forEach((wordData, wordIndex) => {
-                const wordElement = wordElements[wordIndex];
-                if (!wordElement) return;
-
-                const start = parseFloat(wordData.start);
-                const end = parseFloat(wordData.end);
-
-                wordElement.classList.remove('active', 'played');
+            words.forEach(word => {
+                const start = parseFloat(word.dataset.start);
+                const end = parseFloat(word.dataset.end);
+                
+                word.classList.remove('active', 'played');
                 
                 if (currentTime >= start && currentTime <= end) {
-                    wordElement.classList.add('active');
-                    data.currentWordIndex = wordIndex;
-                    
+                    word.classList.add('active');
                     // Auto-scroll to current word
-                    wordElement.scrollIntoView({
+                    word.scrollIntoView({
                         behavior: 'smooth',
-                        block: 'center',
-                        inline: 'center'
+                        block: 'center'
                     });
                 } else if (currentTime > end) {
-                    wordElement.classList.add('played');
+                    word.classList.add('played');
                 }
             });
         }
 
-        function seekToWord(index, startTime) {
-            const audio = document.getElementById(`audio-${index}`);
-            if (audio) {
-                audio.currentTime = startTime;
-                if (audio.paused) {
-                    audio.play();
+        function seekToTime(time) {
+            if (currentAudio) {
+                currentAudio.currentTime = time;
+                if (currentAudio.paused) {
+                    currentAudio.play();
                 }
             }
         }
 
-        function toggleSubtitles(index) {
-            const container = document.getElementById(`subtitles-${index}`);
-            const button = document.getElementById(`subtitle-btn-${index}`);
+        function toggleStats() {
+            const stats = document.getElementById('transcript-stats');
+            const button = document.getElementById('stats-toggle');
             
-            if (container.style.display === 'none') {
-                container.style.display = 'block';
-                button.textContent = 'Hide Subtitles';
-                button.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Subtitles';
+            if (stats.classList.contains('active')) {
+                stats.classList.remove('active');
+                button.innerHTML = '<i class="fas fa-chart-bar"></i> Show Stats';
             } else {
-                container.style.display = 'none';
-                button.innerHTML = '<i class="fas fa-eye"></i> Show Subtitles';
-                container.classList.remove('active');
+                stats.classList.add('active');
+                button.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Stats';
             }
         }
+
+        function closePodcastModal() {
+            const modal = document.getElementById('podcast-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Pause audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            // Reset stats toggle
+            const stats = document.getElementById('transcript-stats');
+            const button = document.getElementById('stats-toggle');
+            stats.classList.remove('active');
+            button.innerHTML = '<i class="fas fa-chart-bar"></i> Show Stats';
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('podcast-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closePodcastModal();
+            }
+        });
+
+        // ESC key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('podcast-modal').classList.contains('active')) {
+                closePodcastModal();
+            }
+        });
+
 
         async function loadFiles() {
             try {
