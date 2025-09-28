@@ -24,13 +24,13 @@ def cache_path(audio_path: Path) -> Path:
 
 
 def save_outputs(audio_path: Path, transcript: dict):
-    """Save transcript as .json and .txt (with speaker separation)."""
-    # JSON
+    """Save transcript as .json (with speaker separation)."""
+
     json_path = audio_path.with_suffix(".json")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(transcript, f, ensure_ascii=False, indent=2)
 
-    print(f"Saved: {json_path}, {txt_path}")
+    print(f"Saved: {json_path}")
 
 
 def transcribe(audio_path: Path):
