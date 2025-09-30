@@ -23,5 +23,52 @@
 | DureeTrv | Duree des traveaux | Numerique | 19 | |
 | ChntTrv | Chantier des traveau de station | Alphanumerique | 30 | |
 
-LOW_BATTERY
-EOF
+---
+
+#### Question 2
+
+MCD
+
+Ligne n,1 --> 1,1 station
+
+station 1,1 --> 1,n arrondissement
+
+station 0,n --> 1,1 travail
+
+### II
+
+#### MLD
+
+| Ligne |
+| -- |
+| __<u>NumLigne</u>__ |
+| longueur |
+| DateMisSrv |
+| NbrPassager |
+| __NumDep#__ |
+| __NumArr#__ |
+
+---
+
+| Station |
+| -- |
+| __<u>NumStation</u>__ |
+| nomStation |
+| __Arrondissement#__ |
+
+---
+
+| Arrondissement |
+| -- |
+| __<u>NumArrondissement</u>__ |
+| NbrHabArrondissement |
+| Superficie |
+
+---
+
+| Traveaux |
+| -- |
+| __NumStation#__ |
+| LieuTrveaux |
+| dateDeb |
+| durrTraveaux |
