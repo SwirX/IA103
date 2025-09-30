@@ -1,0 +1,68 @@
+erDiagram
+    Acteur {
+        int ActeurId PK
+        string nomActeur
+        string prnmActeur
+        date dtNaissActeur
+        float poidsActeur
+        float tailleActeur
+    }
+
+    Film {
+        int FilmId PK
+        int Annee
+        int RealId FK
+        int ScenId FK
+    }
+
+    Realisateur {
+        int RealId PK
+        string nom
+    }
+
+    Scenariste {
+        int ScenId PK
+        string nom
+    }
+
+    Producteur {
+        int ProdId PK
+        string nomProd
+        string adresseProd
+    }
+
+    Jouer {
+        int ActeurId PK, FK
+        int FilmId PK, FK
+    }
+
+    HistoriqueCachet {
+        int ActeurId PK, FK
+        int FilmId PK, FK
+        date date PK
+        float pourcentage
+        float cachetFixe
+    }
+
+    LiensFilm {
+        int FilmId PK, FK
+        int RemakeId PK, FK
+        string typeLien
+    }
+
+    Investir {
+        int ProdId PK, FK
+        int FilmId PK, FK
+        float montant
+    }
+
+    %% Relations principales
+    Acteur ||--o{ Jouer : "joue"
+    Film ||--o{ Jouer : "joué par"
+    Acteur ||--o{ HistoriqueCachet : "a reçu"
+    Film ||--o{ HistoriqueCachet : "pour"
+    Film ||--o{ LiensFilm : "a un lien vers"
+    Film ||--o{ Investir : "financé par"
+    Producteur ||--o{ Investir : "investit"
+    Film ||--|| Realisateur : "réalisé par"
+    Film ||--|| Scenariste : "écrit par"

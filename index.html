@@ -6,916 +6,793 @@
     <title>IA103 - AI Class Resources</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.4.0/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        /* Mobile-first responsive design */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 30px 0;
-        }
-
-        .logo {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            display: inline-block;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        h1 {
-            color: white;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            font-weight: 400;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .nav-btn.active {
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .content-section {
-            display: none;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Loading spinner */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Podcasts Section */
-        .podcast-list {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .podcast-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin: 10px 0;
-            background: #f8f9fa;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .podcast-item:hover {
-            background: #e9ecef;
-            transform: translateX(3px);
-            border-color: #667eea;
-        }
-
-        .podcast-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-
-        .podcast-info {
-            flex: 1;
-            min-width: 0;
-            overflow: hidden;
-        }
-
-        .podcast-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .podcast-meta {
-            font-size: 0.85rem;
-            color: #666;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .play-button {
-            width: 35px;
-            height: 35px;
-            background: #667eea;
-            border: none;
-            border-radius: 50%;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-
-        .play-button:hover {
-            background: #764ba2;
-            transform: scale(1.05);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: none;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 10px;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 500px;
-            margin: 10px auto;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-height: calc(100vh - 20px);
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 2px solid #f1f3f4;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            position: relative;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            margin-right: 40px;
-            word-wrap: break-word;
-            line-height: 1.3;
-        }
-
-        .modal-meta {
-            display: flex;
-            gap: 15px;
-            font-size: 0.85rem;
-            opacity: 0.9;
-            flex-wrap: wrap;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .transcript-container {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
-
-        .transcript-controls {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f1f3f4;
-        }
-
-        .transcript-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .transcript-info h3 {
-            margin: 0;
-            color: #333;
-            font-size: 1.1rem;
-        }
-
-        .transcript-info p {
-            margin: 5px 0 0 0;
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .toggle-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .toggle-btn:hover {
-            background: #764ba2;
-        }
-
-        .toggle-btn.active {
-            background: #28a745;
-        }
-
-        .transcript-stats {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: none;
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .transcript-stats.active {
-            display: block;
-        }
-
-        .stats-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .transcript-text {
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .speaker-segment {
-            margin-bottom: 20px;
-            padding: 12px;
-            border-radius: 12px;
-            border-left: 4px solid #667eea;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
-
-        .speaker-0 {
-            background: #f0f4ff;
-            border-left-color: #667eea;
-        }
-
-        .speaker-1 {
-            background: #fff0f4;
-            border-left-color: #764ba2;
-        }
-
-        .speaker-header {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-        }
-
-        .speaker-icon {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
-        .speaker-0 .speaker-icon {
-            background: #667eea;
-        }
-
-        .speaker-1 .speaker-icon {
-            background: #764ba2;
-        }
-
-        .speaker-content {
-            line-height: 1.6;
-        }
-
-        .transcript-word {
-            padding: 1px 2px;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: inline;
-            word-break: break-word;
-            hyphens: auto;
-        }
-
-        .transcript-word.active {
-            background: #667eea;
-            color: white;
-            font-weight: 500;
-        }
-
-        .transcript-word.played {
-            background: #e9ecef;
-            color: #6c757d;
-        }
-
-        .transcript-word:hover {
-            background: #764ba2;
-            color: white;
-        }
-
-        .modal-footer {
-            padding: 15px;
-            border-top: 2px solid #f1f3f4;
-            background: #f8f9fa;
-        }
-
-        .audio-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .audio-controls audio {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .audio-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .download-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.3s ease;
-            font-size: 0.85rem;
-        }
-
-        .download-btn:hover {
-            background: #218838;
-        }
-
-        .play-pause-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .play-pause-btn:hover {
-            background: #764ba2;
-        }
-
-        .play-pause-btn.playing {
-            background: #dc3545;
-        }
-
-        .play-pause-btn.playing:hover {
-            background: #c82333;
-        }
-
-        .audio-progress {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .progress-bar {
-            flex: 1;
-            height: 4px;
-            background: #e9ecef;
-            border-radius: 2px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #667eea;
-            border-radius: 2px;
-            transition: width 0.1s ease;
-        }
-
-        /* File Viewer Modal */
-        .file-viewer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: none;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .file-viewer.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .file-viewer-content {
-            background: white;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 500px;
-            margin: 10px auto;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-height: calc(100vh - 20px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .viewer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            padding: 20px 20px 15px 20px;
-            border-bottom: 2px solid #f1f3f4;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .viewer-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: white;
-            margin: 0;
-            margin-right: 15px;
-            word-wrap: break-word;
-            line-height: 1.3;
-        }
-
-        .close-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .viewer-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .markdown-content {
-            line-height: 1.6;
-            color: #333;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
-            margin: 20px 0 10px 0;
-            color: #2c3e50;
-            word-wrap: break-word;
-        }
-
-        .markdown-content h1 {
-            font-size: 1.8rem;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-        }
-
-        .markdown-content h2 {
-            font-size: 1.4rem;
-            border-bottom: 2px solid #764ba2;
-            padding-bottom: 8px;
-        }
-
-        .markdown-content h3 {
-            font-size: 1.2rem;
-        }
-
-        .markdown-content pre {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .markdown-content code {
-            background: #f1f3f4;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            word-wrap: break-word;
-        }
-
-        .markdown-content blockquote {
-            border-left: 4px solid #667eea;
-            margin: 20px 0;
-            padding: 10px 20px;
-            background: #f8f9ff;
-            border-radius: 0 10px 10px 0;
-        }
-
-        .markdown-content p, .markdown-content li {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        /* Files Section */
-        .file-tree {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .folder {
-            margin-bottom: 15px;
-        }
-
-        .folder-header {
-            background: #f8f9fa;
-            padding: 12px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.3s ease;
-            font-weight: 500;
-        }
-
-        .folder-header:hover {
-            background: #e9ecef;
-        }
-
-        .folder-content {
-            display: none;
-            padding: 15px 0 0 30px;
-        }
-
-        .folder.open .folder-content {
-            display: block;
-        }
-
-        .folder.open .folder-icon {
-            transform: rotate(90deg);
-        }
-
-        .folder-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            margin: 5px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .file-item:hover {
-            background: #f8f9fa;
-        }
-
-        /* Tablet styles */
-        @media (min-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            header {
-                margin-bottom: 40px;
-                padding: 40px 0;
-            }
-
-            .logo {
-                padding: 30px;
-                margin-bottom: 20px;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .subtitle {
-                font-size: 1.1rem;
-            }
-
-            .nav-btn {
-                padding: 15px 30px;
-                font-size: 1rem;
-                gap: 10px;
-            }
-
-            .content-section {
-                padding: 30px;
-            }
-
-            .podcast-list {
-                padding: 20px;
-            }
-
-            .podcast-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-                margin-right: 15px;
-            }
-
-            .podcast-title {
-                font-size: 1.1rem;
-            }
-
-            .podcast-meta {
-                font-size: 0.9rem;
-            }
-
-            .play-button {
-                width: 40px;
-                height: 40px;
-            }
-
-            .modal-content {
-                max-width: 700px;
-                border-radius: 20px;
-            }
-
-            .modal-header {
-                padding: 25px;
-            }
-
-            .modal-title {
-                font-size: 1.5rem;
-            }
-
-            .transcript-container {
-                padding: 25px;
-            }
-
-            .transcript-header {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .transcript-info h3 {
-                font-size: 1.2rem;
-            }
-
-            .transcript-info p {
-                font-size: 0.9rem;
-            }
-
-            .transcript-stats {
-                padding: 15px;
-            }
-
-            .stats-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 15px;
-            }
-
-            .speaker-segment {
-                padding: 15px;
-            }
-
-            .modal-footer {
-                padding: 20px 25px;
-            }
-
-            .audio-controls {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .audio-controls audio {
-                flex: 1;
-                margin-right: 15px;
-            }
-
-            /* File viewer desktop styles */
-            .file-viewer-content {
-                max-width: 800px;
-                border-radius: 20px;
-            }
-
-            .viewer-header {
-                padding: 25px;
-            }
-
-            .viewer-title {
-                font-size: 1.4rem;
-            }
-
-            .close-btn {
-                width: 35px;
-                height: 35px;
-            }
-
-            .viewer-content {
-                padding: 30px;
-            }
-
-            .markdown-content h1 {
-                font-size: 2rem;
-            }
-
-            .markdown-content h2 {
-                font-size: 1.5rem;
-            }
-
-            .markdown-content h3 {
-                font-size: 1.3rem;
-            }
-        }
-
-        /* Desktop styles */
-        @media (min-width: 1024px) {
-            .modal-content {
-                max-width: 900px;
-            }
-
-            .transcript-text {
-                font-size: 1rem;
-            }
-
-            .file-viewer-content {
-                max-width: 900px;
-            }
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px 0;
+}
+
+.logo {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    display: inline-block;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.nav-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.content-section {
+    display: none;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.content-section.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.podcast-list, .file-tree {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.podcast-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.podcast-item:hover {
+    background: #e9ecef;
+    transform: translateX(3px);
+    border-color: #667eea;
+}
+
+.podcast-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.podcast-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.podcast-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.podcast-meta {
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.play-button {
+    width: 35px;
+    height: 35px;
+    background: #667eea;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.play-button:hover {
+    background: #764ba2;
+    transform: scale(1.05);
+}
+
+.folder {
+    margin-bottom: 15px;
+}
+
+.folder-header {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s ease;
+    font-weight: 500;
+}
+
+.folder-header:hover {
+    background: #e9ecef;
+}
+
+.folder-content {
+    display: none;
+    padding: 15px 0 0 30px;
+}
+
+.folder.open .folder-content {
+    display: block;
+}
+
+.folder.open .folder-icon {
+    transform: rotate(90deg);
+}
+
+.folder-icon {
+    transition: transform 0.3s ease;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-item:hover {
+    background: #f8f9fa;
+}
+
+/* Podcast Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-height: calc(100vh - 20px);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 2px solid #f1f3f4;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: relative;
+}
+
+.modal-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-right: 40px;
+    word-wrap: break-word;
+    line-height: 1.3;
+}
+
+.modal-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85rem;
+    opacity: 0.9;
+    flex-wrap: wrap;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.transcript-container {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    line-height: 1.6;
+}
+
+.transcript-controls {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f3f4;
+}
+
+.transcript-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.transcript-info h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.transcript-info p {
+    margin: 5px 0 0 0;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.toggle-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.toggle-btn:hover {
+    background: #764ba2;
+}
+
+.transcript-stats {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: none;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.transcript-stats.active {
+    display: block;
+}
+
+.stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.transcript-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.speaker-segment {
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.speaker-0 {
+    background: #f0f4ff;
+    border-left-color: #667eea;
+}
+
+.speaker-1 {
+    background: #fff0f4;
+    border-left-color: #764ba2;
+}
+
+.speaker-header {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+}
+
+.speaker-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.speaker-0 .speaker-icon {
+    background: #667eea;
+}
+
+.speaker-1 .speaker-icon {
+    background: #764ba2;
+}
+
+.speaker-content {
+    line-height: 1.6;
+}
+
+.transcript-word {
+    padding: 1px 2px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: inline;
+    word-break: break-word;
+}
+
+.transcript-word.active {
+    background: #667eea;
+    color: white;
+    font-weight: 500;
+}
+
+.transcript-word.played {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.transcript-word:hover {
+    background: #764ba2;
+    color: white;
+}
+
+.modal-footer {
+    padding: 15px;
+    border-top: 2px solid #f1f3f4;
+    background: #f8f9fa;
+}
+
+.audio-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.audio-controls audio {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.download-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.download-btn:hover {
+    background: #218838;
+}
+
+/* File Viewer */
+.file-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: none;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.file-viewer.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.file-viewer-content {
+    background: white;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
+    margin: 10px auto;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-height: calc(100vh - 20px);
+    display: flex;
+    flex-direction: column;
+}
+
+.viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid #f1f3f4;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.viewer-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+    margin-right: 15px;
+    word-wrap: break-word;
+    line-height: 1.3;
+    flex: 1;
+}
+
+.viewer-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.viewer-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.viewer-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.viewer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.markdown-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    line-height: 1.8;
+    color: #333;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.markdown-content h1, .markdown-content h2, .markdown-content h3 {
+    margin: 25px 0 15px 0;
+    color: #2c3e50;
+}
+
+.markdown-content h1 {
+    font-size: 2rem;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.markdown-content h2 {
+    font-size: 1.6rem;
+    border-bottom: 2px solid #764ba2;
+    padding-bottom: 8px;
+}
+
+.markdown-content h3 {
+    font-size: 1.3rem;
+}
+
+.markdown-content pre {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.markdown-content code {
+    background: #f1f3f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid #667eea;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background: #f8f9ff;
+    border-radius: 0 10px 10px 0;
+}
+
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.markdown-content th, .markdown-content td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.markdown-content th {
+    background: #667eea;
+    color: white;
+}
+
+.mermaid-diagram {
+    background: white;
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 10px;
+    border: 2px solid #e1e4e8;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.mermaid-diagram svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.pdf-container {
+    background: #525659;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.pdf-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.pdf-controls button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.pdf-controls button:hover {
+    background: #764ba2;
+}
+
+.pdf-controls button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.pdf-controls span {
+    color: white;
+    font-weight: 500;
+}
+
+#pdf-canvas {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    max-width: 100%;
+    height: auto;
+    background: white;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 70vh;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 768px) {
+    .audio-controls {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .audio-controls audio {
+        flex: 1;
+        margin-right: 15px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1014,553 +891,26 @@
             </div>
         </div>
 
+        <!-- File Viewer -->
         <div id="file-viewer" class="file-viewer">
             <div class="file-viewer-content">
                 <div class="viewer-header">
                     <h2 class="viewer-title" id="viewer-title">File Viewer</h2>
-                    <button class="close-btn" onclick="closeViewer()">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="viewer-controls">
+                        <button class="viewer-btn" id="download-btn" title="Download" style="display: none;">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="viewer-btn" onclick="closeViewer()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="viewer-content">
-                    <div id="viewer-content" class="markdown-content"></div>
+                    <div id="viewer-content"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // Configuration - modify these paths according to your repo structure
-        const PODCASTS_PATH = 'podcasts/';
-        const EXERCISES_PATH = '';
-        
-        let currentSection = 'podcasts';
-        let currentAudio = null;
-        let currentPodcastData = {};
-
-        function showSection(section) {
-            // Update nav buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.closest('.nav-btn').classList.add('active');
-
-            // Hide all sections
-            document.querySelectorAll('.content-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-
-            // Show selected section
-            document.getElementById(section).classList.add('active');
-            currentSection = section;
-
-            // Load content if not already loaded
-            if (section === 'podcasts' && !document.getElementById('podcasts').querySelector('.podcast-list')) {
-                loadPodcasts();
-            } else if (section === 'files' && !document.getElementById('files').querySelector('.file-tree')) {
-                loadFiles();
-            }
-
-            // Hide file viewer when switching sections
-            closeViewer();
-        }
-
-        // Define your podcast files manually
-        const PODCAST_FILES = [
-            { name: 'm101.mp3', title: 'Module 101' },
-            { name: 'm102ch1-3.mp3', title: 'Module 102 Chapitre 1-3' },
-            { name: 'm103ch1-2.mp3', title: 'Module 103 Chapitre 1-2' },
-            // Add more podcasts as needed
-        ];
-
-        function loadPodcasts() {
-            const podcastsContainer = document.getElementById('podcasts');
-            
-            if (PODCAST_FILES.length === 0) {
-                podcastsContainer.innerHTML = '<p style="text-align: center; color: #666;">No podcast files found. Add your podcast files to the podcasts/ directory.</p>';
-                return;
-            }
-
-            const listHTML = PODCAST_FILES.map((file, index) => {
-                const fileExtension = file.name.split('.').pop().toUpperCase();
-                
-                return `
-                    <div class="podcast-item" onclick="openPodcastModal('${file.name}', '${file.title}', '${fileExtension}')">
-                        <div class="podcast-icon">
-                            <i class="fas fa-podcast"></i>
-                        </div>
-                        <div class="podcast-info">
-                            <div class="podcast-title">${file.title}</div>
-                            <div class="podcast-meta">
-                                <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
-                                <span><i class="fas fa-clock"></i> Click to play</span>
-                            </div>
-                        </div>
-                        <button class="play-button" onclick="event.stopPropagation(); openPodcastModal('${file.name}', '${file.title}', '${fileExtension}')">
-                            <i class="fas fa-play"></i>
-                        </button>
-                    </div>
-                `;
-            }).join('');
-
-            podcastsContainer.innerHTML = `
-                <div class="podcast-list">
-                    <h2 style="margin-bottom: 20px; color: #333;">
-                        <i class="fas fa-podcast"></i> Available Podcasts
-                    </h2>
-                    ${listHTML}
-                </div>
-            `;
-        }
-
-        // Define your exercise structure manually
-        const EXERCISE_STRUCTURE = [
-            {
-                class: 'Classe 14 (Aberahman Salhi)',
-                exercises: [
-                    {
-                        name: 'TD1',
-                        files: [
-                            { name: 'Answers', path: 'c14/TD/1/answers/answers.md', isAnswer: true },
-                            { name: 'PDF', path: 'c14/TD/1/original/Confluence.pdf', isAnswer: false }
-                        ]
-                    },
-                    {
-                        name: 'TD2',
-                        files: [
-                            { name: 'PDF', path: 'c14/TD/2/original/algorithme.pdf', isAnswer: false },
-                            { name: 'Answers', path: 'c14/TD/2/answers/answers.md', isAnswer: true }
-                        ]
-                    },
-                    {
-                        name: 'TD4',
-                        files: [
-                            { name: 'PDF', path: 'c14/TD/4/original/Confluence.pdf', isAnswer: false },
-                            { name: 'Answers', path: 'c14/TD/4/answers/answers.md', isAnswer: true }
-                        ]
-                    }
-                ]
-            },
-            {
-                class: 'Classe 12 (Abdelkarim Kherimiche)',
-                exercises: [
-                    {
-                        name: 'TD1',
-                        files: [
-                            { name: 'PDF', path: 'c12/TD/1/original/original.pdf', isAnswer: false },
-                            { name: 'Answers', path: 'c12/TD/1/answers/answers.md', isAnswer: true }
-                        ]
-                    },
-                    {
-                        name: 'TD2',
-                        files: [
-                            { name: 'PDF', path: 'c12/TD/2/original/original.pdf', isAnswer: false },
-                            { name: 'Answers', path: 'c12/TD/2/answers/answers.md', isAnswer: true }
-                        ]
-                    },
-                    ,
-                    {
-                        name: 'TD2-p2',
-                        files: [
-                            { name: 'PDF', path: 'c12/TD/2-v2/original/original.md', isAnswer: false },
-                            { name: 'Answers', path: 'c12/TD/2-v2/answers/answers.md', isAnswer: true }
-                        ]
-                    },
-                    {
-                        name: 'TD3',
-                        files: [
-                            { name: 'PDF', path: 'c12/TD/3/original/original.pdf', isAnswer: false },
-                            { name: 'Answers', path: 'c12/TD/3/answers/answers.md', isAnswer: true }
-                        ]
-                    }
-                ]
-            }
-            // Add more classes and exercises as needed
-        ];
-
-        function loadFiles() {
-            const filesContainer = document.getElementById('files');
-            
-            if (EXERCISE_STRUCTURE.length === 0) {
-                filesContainer.innerHTML = '<p style="text-align: center; color: #666;">No exercise files found. Add your exercise files to the appropriate directories.</p>';
-                return;
-            }
-
-            let foldersHTML = '';
-            
-            EXERCISE_STRUCTURE.forEach(classItem => {
-                let exerciseHTML = '';
-                let totalFiles = 0;
-                
-                classItem.exercises.forEach(exercise => {
-                    if (exercise.files.length > 0) {
-                        totalFiles += exercise.files.length;
-                        exerciseHTML += `
-                            <div class="folder" style="margin-left: 20px; margin-bottom: 10px;">
-                                <div class="folder-header" onclick="toggleFolder(this)" style="background: #f1f3f4;">
-                                    <i class="fas fa-chevron-right folder-icon"></i>
-                                    <i class="fas fa-clipboard-list"></i>
-                                    <span>${exercise.name}</span>
-                                    <span style="margin-left: auto; font-size: 0.8rem; color: #666;">${exercise.files.length} files</span>
-                                </div>
-                                <div class="folder-content">
-                                    ${exercise.files.map(file => `
-                                        <div class="file-item" onclick="viewFile('${file.path}', '${file.name}')">
-                                            <i class="fas fa-file-alt" style="color: ${file.isAnswer ? '#28a745' : '#6c757d'};"></i>
-                                            <span>${file.isAnswer ? '📝 ' : ''}${file.name}</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-                
-                if (totalFiles > 0) {
-                    foldersHTML += `
-                        <div class="folder">
-                            <div class="folder-header" onclick="toggleFolder(this)">
-                                <i class="fas fa-chevron-right folder-icon"></i>
-                                <i class="fas fa-graduation-cap"></i>
-                                <span>${classItem.class.toUpperCase()} - TD Exercises</span>
-                                <span style="margin-left: auto; font-size: 0.8rem; color: #666;">${totalFiles} files</span>
-                            </div>
-                            <div class="folder-content">
-                                ${exerciseHTML}
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            filesContainer.innerHTML = `
-                <div class="file-tree">
-                    <h2 style="margin-bottom: 20px; color: #333;"><i class="fas fa-folder-open"></i> Exercise Files</h2>
-                    ${foldersHTML}
-                </div>
-            `;
-        }
-
-        function toggleFolder(header) {
-            const folder = header.parentElement;
-            folder.classList.toggle('open');
-        }
-
-        async function openPodcastModal(fileName, displayName, fileExtension) {
-            const modal = document.getElementById('podcast-modal');
-            const audio = document.getElementById('modal-audio');
-            const audioUrl = `${PODCASTS_PATH}${fileName}`;
-            const transcriptUrl = `${PODCASTS_PATH}${fileName.replace(/\.[^/.]+$/, '')}.json`;
-            
-            // Set up modal
-            document.getElementById('modal-podcast-title').textContent = displayName;
-            document.getElementById('modal-podcast-meta').innerHTML = `
-                <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
-                <span><i class="fas fa-clock"></i> Loading...</span>
-            `;
-            document.getElementById('modal-download').onclick = () => {
-                const a = document.createElement('a');
-                a.href = audioUrl;
-                a.download = fileName;
-                a.click();
-            };
-            
-            // Set up audio
-            audio.src = audioUrl;
-            currentAudio = audio;
-            
-            // Show modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            // change the page title
-            document.title = `${displayName} - IA103 Podcasts`;
-            
-            // Load transcript
-            await loadTranscript(transcriptUrl, displayName);
-            
-            // Set up audio event listeners
-            setupAudioPlayer();
-            
-            // Update duration when loaded
-            audio.addEventListener('loadedmetadata', () => {
-                const duration = formatTime(audio.duration);
-                document.getElementById('modal-podcast-meta').innerHTML = `
-                    <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
-                    <span><i class="fas fa-clock"></i> ${duration}</span>
-                `;
-            });
-        }
-
-        async function loadTranscript(transcriptUrl, podcastName) {
-            const container = document.getElementById('transcript-text');
-            const statsContainer = document.getElementById('transcript-stats');
-            
-            try {
-                const response = await fetch(transcriptUrl);
-                if (!response.ok) {
-                    container.innerHTML = '<p style="text-align: center; color: #666;">No transcript available for this podcast.</p>';
-                    return;
-                }
-                
-                const transcriptData = await response.json();
-                currentPodcastData = transcriptData;
-                
-                // Update stats
-                document.getElementById('stat-language').textContent = 
-                    `${transcriptData.language_code || 'Unknown'} (${(transcriptData.language_probability * 100 || 0).toFixed(1)}%)`;
-                document.getElementById('stat-confidence').textContent = 
-                    `${(transcriptData.language_probability * 100 || 0).toFixed(1)}%`;
-                document.getElementById('stat-id').textContent = 
-                    transcriptData.transcription_id || 'N/A';
-                
-                // Render transcript
-                renderTranscript(transcriptData.words || []);
-                
-            } catch (error) {
-                console.error('Error loading transcript:', error);
-                container.innerHTML = '<p style="text-align: center; color: #e74c3c;">Error loading transcript.</p>';
-            }
-        }
-
-        function renderTranscript(words) {
-            const container = document.getElementById('transcript-text');
-            
-            if (!words || words.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666;">No transcript data available.</p>';
-                return;
-            }
-            
-            // Group words by speaker and handle spacing properly
-            const speakers = {};
-            let currentSpeaker = null;
-            let currentSegment = [];
-            
-            words.forEach((word, index) => {
-                // Skip spacing elements but preserve them for rendering
-                if (word.type === 'spacing') {
-                    if (currentSegment.length > 0) {
-                        currentSegment.push(word);
-                    }
-                    return;
-                }
-                
-                if (word.speaker_id !== currentSpeaker) {
-                    // Save previous segment
-                    if (currentSpeaker !== null && currentSegment.length > 0) {
-                        if (!speakers[currentSpeaker]) speakers[currentSpeaker] = [];
-                        speakers[currentSpeaker].push([...currentSegment]);
-                    }
-                    
-                    // Start new segment
-                    currentSpeaker = word.speaker_id;
-                    currentSegment = [word];
-                } else {
-                    currentSegment.push(word);
-                }
-            });
-            
-            // Save final segment
-            if (currentSpeaker !== null && currentSegment.length > 0) {
-                if (!speakers[currentSpeaker]) speakers[currentSpeaker] = [];
-                speakers[currentSpeaker].push([...currentSegment]);
-            }
-            
-            // Render segments chronologically
-            const allSegments = [];
-            Object.keys(speakers).forEach(speakerId => {
-                speakers[speakerId].forEach(segment => {
-                    allSegments.push({ speakerId, segment });
-                });
-            });
-            
-            // Sort by start time of first word in segment
-            allSegments.sort((a, b) => {
-                const aFirstWord = a.segment.find(w => w.type === 'word');
-                const bFirstWord = b.segment.find(w => w.type === 'word');
-                return (aFirstWord?.start || 0) - (bFirstWord?.start || 0);
-            });
-            
-            const segmentsHTML = allSegments.map(({ speakerId, segment }) => {
-                const speakerNum = speakerId.replace('speaker_', '');
-                const speakerClass = `speaker-${parseInt(speakerNum) % 2}`;
-                
-                // Render words with proper spacing
-                const wordsHTML = segment.map((word) => {
-                    if (word.type === 'spacing') {
-                        return word.text || ' '; // Preserve spacing
-                    } else {
-                        return `<span class="transcript-word" data-start="${word.start}" data-end="${word.end}" onclick="seekToTime(${word.start})">${word.text}</span>`;
-                    }
-                }).join('');
-                
-                return `
-                    <div class="speaker-segment ${speakerClass}">
-                        <div class="speaker-header">
-                            <span class="speaker-icon">${parseInt(speakerNum) + 1}</span>
-                            Speaker ${parseInt(speakerNum) + 1}
-                        </div>
-                        <div class="speaker-content">
-                            ${wordsHTML}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            container.innerHTML = segmentsHTML;
-        }
-
-        function setupAudioPlayer() {
-            if (!currentAudio) return;
-            
-            currentAudio.addEventListener('timeupdate', () => {
-                updateTranscriptHighlight(currentAudio.currentTime);
-            });
-
-            currentAudio.addEventListener('loadedmetadata', () => {
-                // Duration is handled in openPodcastModal
-            });
-
-            currentAudio.addEventListener('play', () => {
-                // Play state is handled by default controls
-            });
-
-            currentAudio.addEventListener('pause', () => {
-                // Pause state is handled by default controls
-            });
-        }
-
-        function updateTranscriptHighlight(currentTime) {
-            const words = document.querySelectorAll('.transcript-word');
-            
-            words.forEach(word => {
-                const start = parseFloat(word.dataset.start);
-                const end = parseFloat(word.dataset.end);
-                
-                word.classList.remove('active', 'played');
-                
-                if (currentTime >= start && currentTime <= end) {
-                    word.classList.add('active');
-                    // Auto-scroll to current word
-                    word.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                } else if (currentTime > end) {
-                    word.classList.add('played');
-                }
-            });
-        }
-
-        function seekToTime(time) {
-            if (currentAudio) {
-                currentAudio.currentTime = time;
-                if (currentAudio.paused) {
-                    currentAudio.play();
-                }
-            }
-        }
-
-        function toggleStats() {
-            const stats = document.getElementById('transcript-stats');
-            const button = document.getElementById('stats-toggle');
-            
-            if (stats.classList.contains('active')) {
-                stats.classList.remove('active');
-                button.innerHTML = '<i class="fas fa-chart-bar"></i> Stats';
-            } else {
-                stats.classList.add('active');
-                button.innerHTML = '<i class="fas fa-eye-slash"></i> Hide';
-            }
-        }
-
-        function closePodcastModal() {
-            const modal = document.getElementById('podcast-modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            
-            // Pause audio
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-            
-            // Reset stats toggle
-            const stats = document.getElementById('transcript-stats');
-            const button = document.getElementById('stats-toggle');
-            stats.classList.remove('active');
-            button.innerHTML = '<i class="fas fa-chart-bar"></i> Stats';
-        }
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        async function viewFile(filePath, fileName) {
-            try {
-                const response = await fetch(`${EXERCISES_PATH}${filePath}`);
-                if (!response.ok) {
-                    throw new Error('File not found');
-                }
-                const content = await response.text();
-                
-                document.getElementById('viewer-title').textContent = fileName;
-                
-                if (fileName.endsWith('.md')) {
-                    // Use marked.js to render markdown
-                    document.getElementById('viewer-content').innerHTML = marked.parse(content);
-                } else {
-                    // For txt files, wrap in pre tag
-                    document.getElementById('viewer-content').innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${content}</pre>`;
-                }
-                
-                // Show file viewer modal
-                const fileViewer = document.getElementById('file-viewer');
-                fileViewer.classList.add('active');
-                document.body.style.overflow = 'hidden';
-
-            } catch (error) {
-                console.error('Error loading file:', error);
-                alert('Error loading file. Please check if the file exists at the specified path.');
-            }
-        }
-
-        function closeViewer() {
-            const fileViewer = document.getElementById('file-viewer');
-            fileViewer.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Close modals when clicking outside or pressing ESC
-        document.getElementById('podcast-modal').addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                closePodcastModal();
-            }
-        });
-
-        document.getElementById('file-viewer').addEventListener('click', (e) => {
-            if (e.target.classList.contains('file-viewer')) {
-                closeViewer();
-            }
-        });
-
-        // ESC key to close modals
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (document.getElementById('podcast-modal').classList.contains('active')) {
-                    closePodcastModal();
-                } else if (document.getElementById('file-viewer').classList.contains('active')) {
-                    closeViewer();
-                }
-            }
-        });
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadPodcasts();
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
