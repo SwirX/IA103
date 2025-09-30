@@ -793,6 +793,60 @@ h1 {
         margin-right: 15px;
     }
 }
+
+footer {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-content {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.footer-content p {
+    margin-bottom: 12px;
+    opacity: 0.9;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.footer-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.footer-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.footer-divider {
+    width: 50px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 15px auto;
+    border-radius: 2px;
+}
     </style>
 </head>
 <body>
@@ -911,6 +965,23 @@ h1 {
             </div>
         </div>
     </div>
+    <footer>
+        <div class="footer-content">
+            <p>Made with dedication by <strong>Ali Bouyakhsass</strong></p>
+            <div class="footer-divider"></div>
+            <p style="font-size: 0.8rem; opacity: 0.8;">A resource hub for IA103 students and teachers</p>
+            <div class="footer-links">
+                <a href="https://github.com/SwirX" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <i class="fab fa-github"></i>
+                    GitHub: @SwirX
+                </a>
+                <a href="https://alibks.vercel.app" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <i class="fas fa-globe"></i>
+                    Portfolio: alibks
+                </a>
+            </div>
+        </div>
+    </footer>
     <script src="app.js"></script>
 </body>
 </html>
