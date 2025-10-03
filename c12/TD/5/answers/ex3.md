@@ -1,3 +1,6 @@
+# EXERCICE 3
+
+```sql
 CREATE DATABASE IF NOT EXISTS tramwayRabat;
 USE tramwayRabat;
 
@@ -35,3 +38,4 @@ CREATE TABLE IF NOT EXISTS travaux (
     FOREIGN KEY (numArrondissement) REFERENCES arrondissement(numArrondissement),
     FOREIGN KEY (numLigne) REFERENCES ligne(numLigne)
 );
+```

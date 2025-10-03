@@ -1,3 +1,6 @@
+# EXERCICE 2
+
+```sql
 CREATE DATABASE centre_formation;
 USE centre_formation;
 
@@ -51,3 +54,4 @@ CREATE TABLE IF NOT EXISTS catalogue (
     FOREIGN KEY (codeSpec) REFERENCES specialite(codeSpec),
     FOREIGN KEY (codeForm) REFERENCES formation(codeForm),
 );
+```

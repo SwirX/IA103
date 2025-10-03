@@ -171,8 +171,6 @@ function loadFiles() {
         classItem.exercises.forEach(exercise => {
             if (exercise && exercise.files && exercise.files.length > 0) {
                 totalFiles += exercise.files.length;
-                console.log(exercise.name);
-                console.log(exercise.files.map(f => f.name).join(', '));
                 exerciseHTML += `
                     <div class="folder" style="margin-left: 20px; margin-bottom: 10px;">
                         <div class="folder-header" onclick="toggleFolder(this)" style="background: #f1f3f4;">
