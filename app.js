@@ -137,7 +137,7 @@ const EXERCISE_STRUCTURE = [
             {
                 name: 'TD4',
                 files: [
-                    { name: 'Exercice', path: 'c12/TD/4/original/Ex4-enonce.jpg', isAnswer: false },
+                    { name: 'Enonce', path: 'c12/TD/4/original/Ex4-enonce.jpg', isAnswer: false },
                     { name: 'Exercice', path: 'c12/TD/4/original/Ex4-questions.jpg', isAnswer: false },
                     { name: 'Answers', path: 'c12/TD/4/answers/answers.md', isAnswer: true }
                 ]
@@ -145,7 +145,7 @@ const EXERCISE_STRUCTURE = [
             {
                 name: 'TD5',
                 files: [
-                    { name: 'Exercice', path: 'c12/TD/5/original/LDD.pdf', isAnswer: false },
+                    { name: 'PDF', path: 'c12/TD/5/original/LDD.pdf', isAnswer: false },
                     { name: 'EX2', path: 'c12/TD/5/answers/ex2.sql', isAnswer: true },
                     { name: 'EX3', path: 'c12/TD/5/answers/ex3.sql', isAnswer: true }
                 ]
@@ -171,6 +171,8 @@ function loadFiles() {
         classItem.exercises.forEach(exercise => {
             if (exercise && exercise.files && exercise.files.length > 0) {
                 totalFiles += exercise.files.length;
+                print(exercise.name);
+                print(exercise.files.map(f => f.name).join(', '));
                 exerciseHTML += `
                     <div class="folder" style="margin-left: 20px; margin-bottom: 10px;">
                         <div class="folder-header" onclick="toggleFolder(this)" style="background: #f1f3f4;">
