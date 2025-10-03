@@ -145,9 +145,9 @@ const EXERCISE_STRUCTURE = [
             {
                 name: 'TD5',
                 files: [
-                    { name: 'Exercice', path: 'c12/TD/4/original/LDD.pdf', isAnswer: false },,
-                    { name: 'EX2', path: 'c12/TD/4/answers/ex2.sql', isAnswer: true },
-                    { name: 'EX3', path: 'c12/TD/4/answers/ex3.sql', isAnswer: true }
+                    { name: 'Exercice', path: 'c12/TD/5/original/LDD.pdf', isAnswer: false },
+                    { name: 'EX2', path: 'c12/TD/5/answers/ex2.sql', isAnswer: true },
+                    { name: 'EX3', path: 'c12/TD/5/answers/ex3.sql', isAnswer: true }
                 ]
             }
         ]
