@@ -98,6 +98,20 @@ const EXERCISE_STRUCTURE = [
                     { name: 'PDF', path: 'c14/TD/4/original/Confluence.pdf', isAnswer: false },
                     { name: 'Answers', path: 'c14/TD/4/answers/answers.md', isAnswer: true }
                 ]
+            },
+            {
+                name: 'TD5',
+                files: [
+                    { name: 'PDF', path: 'c14/TD/5/original/output.pdf', isAnswer: false },
+                    { name: 'Answers', path: 'c14/TD/5/answers/answers.md', isAnswer: true }
+                ]
+            },
+            {
+                name: 'TD6',
+                files: [
+                    { name: 'PDF', path: 'c14/TD/6/original/tableaux.pdf', isAnswer: false },
+                    { name: 'Answers', path: 'c14/TD/6/answers/answers.md', isAnswer: true }
+                ]
             }
         ]
     },
