@@ -77,7 +77,7 @@ erDiagram
  int ActeurId PK, FK
  int FilmId PK, FK
  }
- HistoriqueCachet {
+ HistoriqueProfit {
  int ActeurId PK, FK
  int FilmId PK, FK
  date date PK
@@ -97,8 +97,8 @@ erDiagram
 
  Acteur ||--o{ Jouer : "joue"
  Film ||--o{ Jouer : "joué par"
- Acteur ||--o{ HistoriqueCachet : "a reçu"
- Film ||--o{ HistoriqueCachet : "pour"
+ Acteur ||--o{ HistoriqueProfit : "a reçu"
+ Film ||--o{ HistoriqueProfit : "pour"
  Film ||--o{ LiensFilm : "a un lien vers"
  Film ||--o{ Investir : "financé par"
  Producteur ||--o{ Investir : "investit"
