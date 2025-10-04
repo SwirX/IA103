@@ -1,13 +1,13 @@
 # IA103  
 
-Cette repo contient mes réponses et travaux pour **IA103**. 
+Cette repo contient mes réponses et travaux pour **IA103**.
 L’organisation est faite par **classe** (ex. `c14`, `c12`), puis par type de travaux (ex. `TD`), et enfin par numéro de TD.  
 
 ---
 
-## 📂 Structure du repo  
+## 📂 Structure du repo
 
-```
+```txt
 
 IA103/
 │
@@ -43,7 +43,7 @@ IA103/
   - `answers/` → mes réponses, toujours au format **Markdown** (`.md`).  
     - Les réponses incluent du texte, du code (dans des blocs Markdown) et des images intégrées.  
   - `original/` → fichier(s) d’origine donnés par le formateur (énoncé, consignes, etc.).  
-
+  
 ---
 
 ## 🎯 Objectif  
@@ -54,4 +54,4 @@ IA103/
 
 ---
 
-✍️ *Auteur : Ali (Groupe IA103)*
+✍️ *Auteur : Ali Bouyakhsass (Groupe IA103)*
