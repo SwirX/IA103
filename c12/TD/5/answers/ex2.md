@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS session (
     nomSess VARCHAR(45) NOT NULL,
     dateDebut DATE NOT NULL,
     dateFin DATE NOT NULL,
+    codeForm INT,
+    FOREIGN KEY (codeForm) REFERENCES formation(codeForm),
     CONSTRAINT CHK_DATE CHECK (dateFin > dateDebut)
 );
 
@@ -26,7 +28,7 @@ CREATE TABLE IF NOT EXISTS formation (
     codeForm INT PRIMARY KEY NOT NULL,
     titreForm VARCHAR(45) NOT NULL,
     dureeForm DOUBLE NOT NULL,
-    prixForm DOUBLE NOT NULL
+    prixForm DOUBLE NOT NULL,
     codeSess INT,
     FOREIGN KEY (codeSess) REFERENCES session(codeSess)
 );
@@ -45,7 +47,7 @@ CREATE TABLE IF NOT EXISTS specialite (
     nomSpec VARCHAR(45) NOT NULL,
     descSpec VARCHAR(45) NOT NULL,
     active TINYINT(1) NOT NULL DEFAULT 1,
-)
+);
 
 CREATE TABLE IF NOT EXISTS catalogue (
     codeSpec INT,
