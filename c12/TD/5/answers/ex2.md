@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS session (
     nomSess VARCHAR(45) NOT NULL,
     dateDebut DATE NOT NULL,
     dateFin DATE NOT NULL,
-    CHECK (dateFin > dateDebut)
+    CONSTRAINT CHK_DATE CHECK (dateFin > dateDebut)
 );
 
 CREATE TABLE IF NOT EXISTS formation (
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS specialite (
     codeSpec INT PRIMARY KEY NOT NULL,
     nomSpec VARCHAR(45) NOT NULL,
     descSpec VARCHAR(45) NOT NULL,
-    active ENUM(1, 0) NOT NULL DEFAULT 1,
+    active TINYINT(1) NOT NULL DEFAULT 1,
 )
 
 CREATE TABLE IF NOT EXISTS catalogue (
