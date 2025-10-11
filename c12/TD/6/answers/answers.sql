@@ -1,17 +1,13 @@
 -- INSERTIONS
 
-INSERT INTO TABLE etudiant VALUES
+INSERT INTO etudiant VALUES
 ('AB234567', 'Alami', 'Ahmad', '1986-01-01', 'Rue du port, 13', 'Tanger', 'Bac'),
 ('G5346789', 'Toumi', 'Aicha', '2000-12-03', 'N12 immeuble Jaouhara', 'Casablanca', 'Master'),
 ('C0987265', 'Toumi', 'Sanaa', '1998-04-30', 'Place du peuple n 2', 'Tanger', 'Niveau Bac'),
-('D2356903', 'Idrissi Alami', 'Mohammed', '1996-05-05', 'Lotissement najah, 
-rue n 12 immeuble 3', 'Rabat', 'Bac+ 4'),
-('Y1234987', 'Ouled thami', 'Ali', '1979-12-04', 'La ville haute, rue 
-chouhada n 6', 'Tanger', 'Bachelor'),
-('J3578902', 'Ben Omar', 'Abd Allah', '1990-06-25', 'Villa Amina 
-n12 bir rami', 'Kenitra', 'Phd'),
-('F9827363', 'El Khattabi', 'Fatima Zohra', '1997-01-10', 'Immeuble iftikhar, 
-n 13 ettakaddoum', 'Rabat', 'Bac + 2');
+('D2356903', 'Idrissi Alami', 'Mohammed', '1996-05-05', 'Lotissement najah, rue n 12 immeuble 3', 'Rabat', 'Bac+ 4'),
+('Y1234987', 'Ouled thami', 'Ali', '1979-12-04', 'La ville haute, rue chouhada n 6', 'Tanger', 'Bachelor'),
+('J3578902', 'Ben Omar', 'Abd Allah', '1990-06-25', 'Villa Amina n12 bir rami', 'Kenitra', 'Phd'),
+('F9827363', 'El Khattabi', 'Fatima Zohra', '1997-01-10', 'Immeuble iftikhar, n 13 ettakaddoum', 'Rabat', 'Bac + 2');
 
 INSERT INTO formation VALUES 
 (11, 'Programming Java', 12, 3600),
@@ -39,14 +35,14 @@ INSERT INTO session VALUES
 (1203, 'Session1203', '2022-11-16', '2022-11-30', 12),
 (1204, 'Session1204', '2022-12-17', '2022-12-31', 12);
 
-INSERT INTO specialite VALUES 
+INSERT INTO specialite (codeSpec, nomSpec, descSpec, active) VALUES 
 (101, 'GL', 'Genie logiciel et developpement', 1),
 (102, 'Data', 'Data Engineering', 1),
 (103, 'Langues', 'Anglais Français', 1),
 (104, 'Communication', 'Communication', 1),
 (105, 'Securite', 'Resaux et securite', 0);
 
-INSERT INTO catalogue VALUES 
+INSERT INTO catalogue (codeSpec, codeForm) VALUES 
 (101, 11),
 (101, 12),
 (102, 15),
@@ -56,7 +52,7 @@ INSERT INTO catalogue VALUES
 (104, 14),
 (104, 16);
 
-INSERT INTO inscription VALUES 
+INSERT INTO inscription (codeSess, numCINEtu, typeCours) VALUES 
 (1101, 'AB234567', 'Distanciel'),
 (1101, 'G5346789', 'Distanciel'),
 (1101, 'C0987265', 'Distanciel'),
@@ -106,6 +102,7 @@ UPDATE inscription SET typeCours = 'Présentiel' WHERE numCINEtu = 'G5346789';
 
 -- EXERCICE 1 P3
 
+-- 1
 SELECT * FROM etudiant;
 SELECT * FROM formation;
 SELECT * FROM inscription;
@@ -113,42 +110,61 @@ SELECT * FROM session;
 SELECT * FROM catalogue;
 SELECT * FROM specialite;
 
+-- 2
 SELECT * FROM etudiant WHERE villeEtu = 'Tanger';
 
+-- 3
 SELECT * FROM formation WHERE prixForm >= 3000;
 
+-- 4
 SELECT titreForm, dureeForm, prixForm, (prixForm / dureeForm) AS prixJournalier FROM formation;
 
+-- 5
 SELECT * FROM session WHERE codeSess = 11;
 
+-- 6
 SELECT numCINEtu FROM inscription WHERE codeSess = 1302;
 
+-- 7
 SELECT * FROM specialite WHERE active = 1;
 
+-- 8
 SELECT COUNT(*) AS total_etudiants FROM etudiant;
 
+-- 9
 SELECT nomEtu, prenomEtu TIMESTAMPDIFF(YEAR, dateNaissance, CURDATE()) as age FROM etudiant;
 
+-- 10
 SELECT titreForm, FROM formation WHERE prixForm = (SELECT MAX(prixForm) FROM formation);
 
+-- 11
 SELECT SUM(prixForm) AS prix_total FROM formation;
 
-SELECT COUNT(DISTINCT numCINEtu) as total_etudiants FROM inscription GROUP BY codeSess;
+-- 12
+SELECT codeSess AS session, COUNT(DISTINCT numCINEtu) as total_etudiants FROM inscription GROUP BY codeSess;
 
+-- 13
 SELECT DISTINCT numCINEtu FROM inscription;
 
+-- 14
 SELECT numCINEtu, COUNT(*) as nbr_inscrip FROM inscription GROUP BY numCINEtu;
 
+-- 15
 SELECT codeSess, SUM(typeCours="Présentiel") as nbr_presentiel, SUM(typeCours="Distanciel") AS nbr_distanciel FROM inscription GROUP BY codeSess;
 
+-- 16
 SELECT f.titreForm, s.nomSess, s.dateDebut, s.dateFin FROM session s JOIN formation f ON s.codeForm = f.codeForm ORDER BY f.titreForm, s.dateDebut;
 
+-- 17
 SELECT DISTINCT f.titreForm, e.numCINEtu, e.nomEtu, e.prenomEtu FROM session s JOIN formation f ON s.codeForm = f.codeForm JOIN inscription i ON s.codeSess = i.codeSess JOIN etudiant e ON i.numCINEtu = e.numCINEtu ORDER BY f.titreForm;
 
+-- 18
 SELECT SUM(i.typeCours="Distanciel"), SUM(i.typeCours="Présentiel") FROM inscription i JOIN session s ON i.codeSess = s.codeSess JOIN formation f ON s.codeForm = f.codeForm WHERE f.titreForm = "Web Developpment";
 
+-- 19
 SELECT f.codeForm, f.titreForm, SUM(i.typeCours = "Distanciel") AS nbr_distanciel FROM inscription i JOIN session s ON i.codeSess = s.codeSess JOIN formation f ON s.codeForm = f.codeForm HAVING nbr_distanciel >= 3 ORDER BY nbr_distanciel DESC;
 
+-- 20
 SELECT s.nomSpec, f.dureeForm, f.prixForm FROM catalogue c JOIN formation f ON c.codeForm = f.codeForm JOIN specialite s ON c.codeSpec = s.codeSpec WHERE c.active = 1;
 
 -- 21 22 not answered
