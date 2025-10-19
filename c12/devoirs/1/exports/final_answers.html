@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>final_answers.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="devoir-1-ali-bouyakhsass">Devoir 1 (ALI BOUYAKHSASS)</h1>
+<h2 id="sujet-1">Sujet 1</h2>
+<p>Gestion Des Examens</p>
+<p>Ce systeme d;information correspond a la gestion des examens d'automne des etudiants S5 de la FSJES.</p>
+<p>Un etudiant est inscrit dans un parcours (Gestion ou Eco-Gestion), l'etudiant est connu par son cne, son nom et son numero d'examen. L'etudiant a le droit de passer un examen dans tous les modules auxquels il est inscrit. Le planning des modules comporte le titre du module, la date, l'heure et la duree. Un etudiant passe ses examens dans un meme lieu (salle ou amphi) connu par son numero et sa capacite totale.</p>
+<p>La plus part des professeurs assurent la surveillance dans la meme salle ou amphi durant toute la periode des examens On ignore dans cet exercice le group de l'etudiant et les differents sujets par module.</p>
+<!-- 
+etudiants( cne(PK), nom, numeroExam (unique) )
+passer ( cne(FK), numExam(FK))
+exam ( numExam(PK) , titreMod, dateMod, heureMod, dureeMod, numeroLieu(FK))
+lieu ( numeroLieu(PK), capaciteTotale, libelle )
+profs ( idProf(PK), nom, numeroLieu (FK) )
+  -->
+<h3 id="mcd">MCD</h3>
+<p><img src="../graphs//sujet01_mcd.svg" alt="MCD_IMAGE"></p>
+<h3 id="mld">MLD</h3>
+<p><img src="../graphs//sujet01_mld.svg" alt="MLD_IMAGE"></p>
+<h3 id="code-sql">Code SQL</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> etudiants (
+    CNE <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>) PRIMARY <span class="hljs-keyword">KEY</span>, 
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    numeroExam <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">16</span>) <span class="hljs-keyword">UNIQUE</span>
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> lieu (
+    numeroLieu <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    capaciteTotale <span class="hljs-built_in">INT</span>,
+    libelle <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">45</span>)
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> exam (
+    NumExam <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    titreModule <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">45</span>),
+    dateModule <span class="hljs-built_in">DATE</span>,
+    heureModule <span class="hljs-built_in">TIME</span>,
+    dureeModule <span class="hljs-built_in">INT</span>,
+    numeroLieu <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">CONSTRAINT</span> FK_EXAM_LIEU <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (numeroLieu) <span class="hljs-keyword">REFERENCES</span> lieu(numeroLieu)
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> passer (
+    CNE <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>),
+    NumExam <span class="hljs-built_in">INT</span>,
+    PRIMARY <span class="hljs-keyword">KEY</span> (CNE, NumExam),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_PASSER_ETUDIANTS <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (CNE) <span class="hljs-keyword">REFERENCES</span> etudiants(CNE),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_PASSER_EXAM <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (NumExam) <span class="hljs-keyword">REFERENCES</span> exam(NumExam)
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> profs (
+    idProf <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    numeroLieu <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">CONSTRAINT</span> FK_PROFS_LIEU <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (numeroLieu) <span class="hljs-keyword">REFERENCES</span> lieu(numeroLieu)
+);
+</div></code></pre>
+<h2 id="sujet-2">Sujet 2</h2>
+<p>Gestion d'une agence immobiliere</p>
+<p>Une agence de location de maisons a Fes desire gerer sa liste de logements. Elle voudrait en effet connaitre l'implantation de chaque logement (le quartier par exemple: Sidi Brahim, Saada, Bensouda, ...) ainsi que les personnes qui les occupent (les signataires uniquement).</p>
+<p>Le loyer depend d'un logement, mais en fonction de son type (maison, studio, T1, T2...) l'agence facturera toujours en plus du loyer la meme somme forfaitaire a ses clients. Par exemple, le prix d'un studio sera toujours egal au prix du loyer + 100dh de charges forfaitaires par mois. Pour chaque logements (les signataires du contrat uniquement), on se contentera de leurs noms, prenoms, date de naissance et numero de telephone. Pour chaque quartier, on desire connaitre le niveau (Haut standing, economique, ...) ainsi que la distance separant le quartier de l'agence.</p>
+<p>On ne gerera pas l'historique de l'occupation des logements par les individus.</p>
+<p>On considere de plus qu'un individu ne peut etre signataire que d'un seul contrat.</p>
+<!-- 
+logement(id (PK), quartier(FK), type(FK), surface, loyer, chargesForf)
+types( id(PK), libelle)
+signataires(id (PK), nom, prenom, dateNaiss, telephone)
+occuper(signataire (PK, FK, U), logement (PK, FK) )
+quartiers(id (PK), nom, niveau, distance)
+-->
+<h3 id="mcd">MCD</h3>
+<p><img src="../graphs//sujet02_mcd.svg" alt="MCD_SUJET02"></p>
+<h3 id="mld">MLD</h3>
+<p><img src="../graphs//sujet02_mld.svg" alt="MLD_SUJET02"></p>
+<h3 id="code-sql">Code SQL</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Quartiers</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> quartiers (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    niveau <span class="hljs-built_in">INT</span>,
+    distance <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>)
+);
+
+<span class="hljs-comment">-- Types de logement</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> types (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    libelle <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>)
+);
+
+<span class="hljs-comment">-- Logements</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> logement (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    quartier <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">type</span> <span class="hljs-built_in">INT</span>,
+    surface <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">8</span>,<span class="hljs-number">2</span>),
+    loyer <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    chargesForf <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_LOGEMENT_QUARTIER <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (quartier) <span class="hljs-keyword">REFERENCES</span> quartiers(<span class="hljs-keyword">id</span>),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_LOGEMENT_TYPE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-keyword">type</span>) <span class="hljs-keyword">REFERENCES</span> types(<span class="hljs-keyword">id</span>)
+);
+
+<span class="hljs-comment">-- Signataires</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> signataires (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    prenom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    dateNaiss <span class="hljs-built_in">DATE</span>,
+    telephone <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>)
+);
+
+<span class="hljs-comment">-- Occuper (relation signataire ↔ logement)</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> occuper (
+    signataire <span class="hljs-built_in">INT</span>,
+    logement <span class="hljs-built_in">INT</span>,
+    PRIMARY <span class="hljs-keyword">KEY</span> (signataire, logement),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_OCCUPER_SIGNATAIRE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (signataire) <span class="hljs-keyword">REFERENCES</span> signataires(<span class="hljs-keyword">id</span>),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_OCCUPER_LOGEMENT <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (logement) <span class="hljs-keyword">REFERENCES</span> logement(<span class="hljs-keyword">id</span>),
+    <span class="hljs-keyword">CONSTRAINT</span> UQ_OCCUPER_SIGNATAIRE <span class="hljs-keyword">UNIQUE</span> (signataire)
+);
+</div></code></pre>
+<h2 id="sujet-3">Sujet 3</h2>
+<p>Gestion d'une chaine hoteliere</p>
+<p>On souhaite realiser une application web pour la gestion de huit hotels. Chaque hotel est caracterise par son nom son adresse, CPH, Telephone et un code unique. Chaque hotel contient environ 80 chambres, une chambre est caracterisee par son numero et un numero de telephone. On considere que ces hotels sonnt classes en 4 categories ou classes: nombre d'etoiles (de 1 a 5) et les caracteristiques de chaque hotel possede au maximum neuf categories de chambres differentes. Une categorie est connue par son code (Code Categorie) et une descripion.</p>
+<p>Cette application consiste a realiser les taches suivantes:</p>
+<ul>
+<li>Consultation de la disponibilite des chambres pour chaque reservation</li>
+<li>L'enregistrement d'une reservation par un client.</li>
+<li>L'enregistrement des diverses consommations (Num. Consommation, Date consommation Heure Consommation) durant le sejour d'un client.</li>
+<li>L'etablissement et l'enregistrement de la facture au depart du client; Cette facture regroupe le prix de la chambre et la quantite des prestation consommees pendant le sejour.</li>
+<li>Pour effectuer une reservation, le client indique son nom, son prenom, son adresse, sa ville, le code postal, son pays, tel et son email. Le client exprime ensuite son besoin: categorie de chambre, periode de sejour (date debut et de fin) et de classe d'hotel. Si la demande est soluble une reservation etablie (Num Reservation, DateDebut, DateFin, DatePayeArrhes, Montant Arrhes).</li>
+<li>Le prix de la categorie d'une chambre depend de la classe d'hotel.</li>
+<li>Les prix des prestations (CodePrest, DesignationPrest) (exemple de prestation: petit dejeuner, dejeuner,...) son propres a chaque hotel.</li>
+<li>Le prix d'une chambre, depends de la categorie et de la classe de l'hotel.</li>
+<li>Une reservation ne concerne qu'une seule chambre.</li>
+</ul>
+<!-- 
+hotels(HotelId(PK), nom, adresse, CPH, Telephone, classeHotel(FK))
+chambres(NumeroChambre(PK), telephone, HotelId(PK,FK))
+prix_chambres(NumeroChambre(FK), IdCategorie(FK), prix)
+classes_hotel(IdClasse(PK), libelle)
+categories_chambre(IdCategorie(PK), libelle, description)
+facture(IdFacture(PK), NumReservation(FK))
+ligne_facture(Idfacture(FK), CodePrest(FK))
+client(IdClient(PK), nom, prenom, adresse, ville, codePostal, pays, tel, email)
+reservation(NumReservation(PK), IdClient(FK), NumeroChambre(FK, U), dateDebut(U), dateFin(U))
+prestations(CodePrest(PK), designation, prix)
+consomations(NumConsomation(PK), dateConsom, CodePrest(FK))
+ -->
+<h3 id="mcd">MCD</h3>
+<p><img src="../graphs//sujet03_mcd.svg" alt="SUJET03 MCD"></p>
+<h3 id="mld">MLD</h3>
+<p><img src="../graphs//sujet03_mld.svg" alt="SUJET03 MLD"></p>
+<h3 id="code-sql">Code SQL</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> classes_hotel (
+    IdClasse <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    libelle <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> hotels (
+    HotelId <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    adresse <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">150</span>),
+    CPH <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>),
+    Telephone <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    classeHotel <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">CONSTRAINT</span> FK_HOTELS_CLASSES <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (classeHotel) <span class="hljs-keyword">REFERENCES</span> classes_hotel(IdClasse)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> categories_chambre (
+    IdCategorie <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    libelle <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    description <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">200</span>)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> chambres (
+    NumeroChambre <span class="hljs-built_in">INT</span>,
+    HotelId <span class="hljs-built_in">INT</span>,
+    telephone <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    PRIMARY <span class="hljs-keyword">KEY</span> (NumeroChambre, HotelId),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_CHAMBRES_HOTELS <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (HotelId) <span class="hljs-keyword">REFERENCES</span> hotels(HotelId)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> prix_chambres (
+    NumeroChambre <span class="hljs-built_in">INT</span>,
+    IdCategorie <span class="hljs-built_in">INT</span>,
+    prix <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    PRIMARY <span class="hljs-keyword">KEY</span> (NumeroChambre, IdCategorie),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_PRIX_CHAMBRES_CHAMBRES <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (NumeroChambre) <span class="hljs-keyword">REFERENCES</span> chambres(NumeroChambre),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_PRIX_CHAMBRES_CATEGORIES <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdCategorie) <span class="hljs-keyword">REFERENCES</span> categories_chambre(IdCategorie)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">client</span> (
+    IdClient <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    prenom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    adresse <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">150</span>),
+    ville <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    codePostal <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>),
+    pays <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    tel <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    email <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> reservation (
+    NumReservation <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    IdClient <span class="hljs-built_in">INT</span>,
+    NumeroChambre <span class="hljs-built_in">INT</span>,
+    dateDebut <span class="hljs-built_in">DATE</span>,
+    dateFin <span class="hljs-built_in">DATE</span>,
+    <span class="hljs-keyword">UNIQUE</span> (NumeroChambre, dateDebut, dateFin),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_RESERVATION_CLIENT <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdClient) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">client</span>(IdClient),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_RESERVATION_CHAMBRES <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (NumeroChambre) <span class="hljs-keyword">REFERENCES</span> chambres(NumeroChambre)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> facture (
+    IdFacture <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    NumReservation <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">CONSTRAINT</span> FK_FACTURE_RESERVATION <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (NumReservation) <span class="hljs-keyword">REFERENCES</span> reservation(NumReservation)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> prestations (
+    CodePrest <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    designation <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    prix <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ligne_facture (
+    IdFacture <span class="hljs-built_in">INT</span>,
+    CodePrest <span class="hljs-built_in">INT</span>,
+    PRIMARY <span class="hljs-keyword">KEY</span> (IdFacture, CodePrest),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_LIGNE_FACTURE_FACTURE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdFacture) <span class="hljs-keyword">REFERENCES</span> facture(IdFacture),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_LIGNE_FACTURE_PRESTATIONS <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (CodePrest) <span class="hljs-keyword">REFERENCES</span> prestations(CodePrest)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> consomations (
+    NumConsomation <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    dateConsom DATETIME,
+    CodePrest <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">CONSTRAINT</span> FK_CONSOMATIONS_PRESTATIONS <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (CodePrest) <span class="hljs-keyword">REFERENCES</span> prestations(CodePrest)
+);
+</div></code></pre>
+<h2 id="sujet-4">Sujet 4</h2>
+<h3 id="mcd">MCD</h3>
+<p><img src="../graphs//sujet04_mcd.svg" alt="SUJET04 MCD"></p>
+<h3 id="mld">MLD</h3>
+<p><img src="../graphs//sujet04_mld.svg" alt="SUJET-4 MLD"></p>
+<h3 id="code-sql">Code SQL</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Agencies</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> agence (
+    IdAgence <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    rue <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    codePostal <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>),
+    ville <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    telephone <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    fax <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>)
+);
+
+<span class="hljs-comment">-- Sellers</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> vendeur (
+    IdVendeur <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    prenom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    sexe <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">1</span>),
+    salaireFixe <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    IdAgence <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">CONSTRAINT</span> FK_VENDEUR_AGENCE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdAgence) <span class="hljs-keyword">REFERENCES</span> agence(IdAgence)
+);
+
+<span class="hljs-comment">-- Seller monthly objectives</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> vendeur_objectif (
+    IdVendeur <span class="hljs-built_in">INT</span>,
+    mois <span class="hljs-built_in">INT</span>,
+    annee <span class="hljs-built_in">INT</span>,
+    objectif <span class="hljs-built_in">INT</span>,
+    PRIMARY <span class="hljs-keyword">KEY</span> (IdVendeur, mois, annee),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_OBJECTIF_VENDEUR <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdVendeur) <span class="hljs-keyword">REFERENCES</span> vendeur(IdVendeur)
+);
+
+<span class="hljs-comment">-- Clients</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">client</span> (
+    IdClient <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    nom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    prenom <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    adresse <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">200</span>)
+);
+
+<span class="hljs-comment">-- Vehicles</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> vehicle (
+    IdVehicle <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    marque <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    modele <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    <span class="hljs-keyword">type</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    immatriculation <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    datePremiereImmat <span class="hljs-built_in">DATE</span>,
+    kilometrage <span class="hljs-built_in">INT</span>,
+    puissanceFiscale <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>),
+    carburation <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    couleur <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    prixAchat <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">12</span>,<span class="hljs-number">2</span>)
+);
+
+<span class="hljs-comment">-- Vehicle exposition in agencies</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> vehicle_exposition (
+    IdVehicle <span class="hljs-built_in">INT</span>,
+    IdAgence <span class="hljs-built_in">INT</span>,
+    statut <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    PRIMARY <span class="hljs-keyword">KEY</span> (IdVehicle, IdAgence),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_EXPO_VEHICLE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdVehicle) <span class="hljs-keyword">REFERENCES</span> vehicle(IdVehicle),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_EXPO_AGENCE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdAgence) <span class="hljs-keyword">REFERENCES</span> agence(IdAgence)
+);
+
+<span class="hljs-comment">-- Transactions</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">transaction</span> (
+    IdTransaction <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    IdVendeur <span class="hljs-built_in">INT</span>,
+    IdClient <span class="hljs-built_in">INT</span>,
+    IdVehicle <span class="hljs-built_in">INT</span>,
+    dateVente <span class="hljs-built_in">DATE</span>,
+    prixContractualise <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">12</span>,<span class="hljs-number">2</span>),
+    observations <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">500</span>),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_TRANS_VENDEUR <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdVendeur) <span class="hljs-keyword">REFERENCES</span> vendeur(IdVendeur),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_TRANS_CLIENT <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdClient) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">client</span>(IdClient),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_TRANS_VEHICLE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdVehicle) <span class="hljs-keyword">REFERENCES</span> vehicle(IdVehicle)
+);
+
+<span class="hljs-comment">-- Photos</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> photo (
+    IdPhoto <span class="hljs-built_in">INT</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    IdVehicle <span class="hljs-built_in">INT</span>,
+    <span class="hljs-keyword">url</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">200</span>),
+    <span class="hljs-keyword">CONSTRAINT</span> FK_PHOTO_VEHICLE <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (IdVehicle) <span class="hljs-keyword">REFERENCES</span> vehicle(IdVehicle)
+);
+</div></code></pre>
+
+</body>
+</html>

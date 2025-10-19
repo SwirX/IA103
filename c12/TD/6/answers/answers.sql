@@ -135,7 +135,7 @@ SELECT COUNT(*) AS total_etudiants FROM etudiant;
 SELECT nomEtu, prenomEtu TIMESTAMPDIFF(YEAR, dateNaissance, CURDATE()) as age FROM etudiant;
 
 -- 10
-SELECT titreForm, FROM formation WHERE prixForm = (SELECT MAX(prixForm) FROM formation);
+SELECT titreForm FROM formation WHERE prixForm = (SELECT MAX(prixForm) FROM formation);
 
 -- 11
 SELECT SUM(prixForm) AS prix_total FROM formation;
@@ -165,6 +165,10 @@ SELECT SUM(i.typeCours="Distanciel"), SUM(i.typeCours="Présentiel") FROM inscri
 SELECT f.codeForm, f.titreForm, SUM(i.typeCours = "Distanciel") AS nbr_distanciel FROM inscription i JOIN session s ON i.codeSess = s.codeSess JOIN formation f ON s.codeForm = f.codeForm HAVING nbr_distanciel >= 3 ORDER BY nbr_distanciel DESC;
 
 -- 20
-SELECT s.nomSpec, f.dureeForm, f.prixForm FROM catalogue c JOIN formation f ON c.codeForm = f.codeForm JOIN specialite s ON c.codeSpec = s.codeSpec WHERE c.active = 1;
+SELECT s.nomSpec, f.dureeForm, f.prixForm FROM catalogue c JOIN formation f ON c.codeForm = f.codeForm JOIN specialite s ON c.codeSpec = s.codeSpec WHERE s.active = 1;
 
--- 21 22 not answered
+-- 21
+
+
+-- 22
+
