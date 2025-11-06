@@ -33,7 +33,7 @@ SELECT product_name, unit_price FROM Products ORDER BY unit_price;
 -- 15 Calculer le total des ventes en arrondissant les valeurs `a deux decimales.
 SELECT ROUND(SUM(total_price), 2) AS ventes_totales FROM Sales;
 -- 16 Calculer le prix moyen des ventes dans la table Sales
-SELECT SUM(total_price) AS prix_moyen FROM Sales;
+SELECT AVG(total_price) AS prix_moyen FROM Sales;
 -- 17 Recuperer sale id et sale date de la table Sales, en formatant la date 
 -- au format AAAA-MM-JJ
 SELECT sale_id, sale_date FROM Sales;
@@ -80,7 +80,54 @@ SELECT product_name, SUM(total_price) AS  FROM Sales s JOIN Products p ON p.prod
 -- 12 Lister toutes les ventes avec les noms de produits correspondants.
 SELECT p.product_name, s.quantity_sold, s.total_price FROM Sales s JOIN Products p ON p.product_id = s.product_id;
 -- 13
-SELECT category, (total_price/(SELECT SUM(total_price) FROM Sales)*100) as percentage FROM Sales s JOIN Products p ON s.product_id = p.product_id GROUP BY category ORDER BY percentage DESC LIMIT 3;
+SELECT category, (SUM(total_price)/(SELECT SUM(total_price) FROM Sales)*100) as percentage FROM Sales s JOIN Products p ON s.product_id = p.product_id GROUP BY category ORDER BY percentage DESC LIMIT 3;
 -- 14 
-SELECT 
+SELECT product_id, product_name, total_price FROM Sales s JOIN Products p ON s.product_id = p.product_id GROUP BY product_id ORDER BY total_price DESC;
+-- 15
+SELECT category, SUM(total_price) AS total_sales FROM Sales s JOIN Products p ON p.product_id = s.product_id GROUP BY category;
+-- 16
+SELECT product_id, CASE WHEN total_price > 1000 THEN "High" WHEN total_price > 100 AND total_price < 1000 THEN "Medium" ELSE "Low" END as sale_category FROM Sales;
+-- 17
+SELECT product_id, quantity_sold FROM Sales WHERE quantity_sold > (SELECT AVG(quantity_sold) FROM Sales);
+-- 18
+SELECT YEAR(sale_date) AS year, MONTH(sale_date) AS month, COUNT(*) AS num_sales FROM Sales GROUP BY year, month;
+-- 19
+SELECT product_id, DATEDIFF(CURRENT_DATE, sale_date) AS months_since_sale FROM Sales;
+-- 20
+SELECT product_id, CASE WHEN WEEKDAY(sale_date) IN (5, 6) THEN "Weekend" ELSE "Weekday" END AS daytype FROM Sales;
 
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+-- 1
+SELECT product_name, (SUM(total_price)/(SELECT SUM(total_price) FROM Sales)*100) as percentage FROM Sales s JOIN Products p ON s.product_id = p.product_id GROUP BY product_name ORDER BY percentage DESC LIMIT 3;
+-- 2
+CREATE VIEW Total_Sales AS SELECT category, product_name, SUM(total_price) AS total_sales FROM Sales s JOIN Products p ON s.product_id = p.product_id GROUP BY product_name;
+-- 3
+SELECT category, product_name, unit_price FROM Sales s JOIN Products p ON p.product_id = s.product_id WHERE quantity_sold > (SELECT AVG(quantity_sold) FROM Sales);
+-- 4
+-- Explication: indexation nous permet de selectionner et rechercher les lignes d'une table plus rapidement (gain de performance)
+-- Exemple: une liste de jeux videos, on peut indexer la colone de la plateforme pour filter les resultat plus rapidement ou indexer la colone du nom pour des recherches plus rapides.
+-- 5
+ALTER TABLE Sales ADD CONSTRAINT FK_SALES_PRODUCTS FOREIGN KEY (product_id) REFERENCES Products(product_id);
+-- 6
+CREATE VIEW Top_Products AS SELECT product_name FROM Products p JOIN Sales s ON s.product_id = p.product_id ORDER BY quantity_sold DESC LIMIT 3;
+-- 7
+
+-- 8
+SELECT product_name, count(sale_id) AS sales FROM Products p JOIN Sales s ON s.product_id = p.product_id GROUP BY product_name;
+-- 9
+SELECT * FROM Sales WHERE total_price > (SELECT AVG(total_price) FROM Sales);
+-- 10
+-- filtrant par sale_date deviendra plus rapide en l'indexant (avec un petit ralentisement dans l'insertion)
+--11
+ALTER TABLE Sales ADD CONSTRAINT CHK_QUANTITY CHECK(quantity_sold > 0);
+-- 12
+CREATE VIEW Product_Sales_Info AS SELECT p.*, COUNT(s.sale_id) AS total_sales FROM Products p JOIN Sales s ON s.product_id = p.product_id GROUP BY product_id;
+-- 13
+CREATE PROCEDURE Update_Unit_Price(IN pid INT, IN new_price DECIMAL(10, 2)) BEGIN UPDATE Products SET unit_price = new_price WHERE product_id = pid END;
+-- 14
+
+-- 15
+SELECT YEAR(sale_date) as Sales_Year, category, SUM(total_price) AS total FROM Sales s JOIN Products p ON p.product_id = s.product_id WHERE YEAR(sale_date) = 2024;

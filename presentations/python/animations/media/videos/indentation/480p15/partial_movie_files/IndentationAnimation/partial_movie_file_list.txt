@@ -1,0 +1,10 @@
+# This file is used internally by FFMPEG.
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/1185818338_2217337168_223132457.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_2408024828_1429717817.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_3366997373_1108768844.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_3049212714_584359899.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_2408024828_377010502.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_2856261885_3032531724.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_2408024828_441088821.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_1600295564_522418264.mp4'
+file 'file:/home/swirx/Documents/school/IA103/presentations/python/animations/media/videos/indentation/480p15/partial_movie_files/IndentationAnimation/624642324_1839128356_1781091830.mp4'

@@ -1,0 +1,22 @@
+[
+    {
+        "question": "comment afficher un message avec Python?",
+        "choices": [
+            "show('bonjour')",
+            "write('bonjour')",
+            "print('bonjour')",
+            "printf('bonjour')",
+            "console.log('bonjour')"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "test -> 2",
+        "choices": [
+            "test1",
+            "test2",
+            "test3"
+        ],
+        "answer": 1
+    }
+]

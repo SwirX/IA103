@@ -1,0 +1,149 @@
+## 🎬 MANIM ANIMATION PLAN — BY TOPIC
+
+### 🧠 Part 1 — *Pourquoi choisir Python ?* (Person 1)
+
+**Goal:** visually support the “why”, not clutter it.
+
+**🔹 Scene 1 – “Python is simple”**
+
+* Show the word **“Simple”** forming from scattered letters (symbolizing clarity).
+* Then fade in the code:
+
+  ```python
+  print("Bonjour")
+  ```
+
+  as if it’s being typed.
+* Add a short text transform animation → “1 ligne = résultat instantané”.
+
+**🔹 Scene 2 – “Polyvalent”**
+
+* Create a rotating ring of icons (Web 🌐, AI 🧠, Data 📊, Game 🎮, Automation ⚙️).
+* Python logo appears in the center — glow pulse animation.
+
+**🔹 Scene 3 – “Demande dans le travail”**
+
+* Bar chart animation showing Python vs other languages (JS, Java, C++).
+  → You can animate the bars growing with `ValueTracker`.
+
+---
+
+### ⚙️ Part 2 — *Caractéristiques du langage* (Person 2)
+
+**Goal:** visually show abstract concepts (interprété, typage dynamique, etc.)
+
+**🔹 Scene 1 – “Lisibilité & indentation”**
+
+* Animate code appearing *without indentation* → show an ❌.
+* Then shift the lines right to proper indentation → ✅ appears.
+  (Nice with `Transform` and `FadeIn`.)
+
+**🔹 Scene 2 – “Typage dynamique”**
+
+* Variable `x` morphs visually:
+
+  * `x = 5` → morph to `x = "Hello"` → morph to `x = [1, 2, 3]`.
+    (Use text transforms and color transitions to show type change.)
+
+**🔹 Scene 3 – “Multiplateforme”**
+
+* Logos of Windows, macOS, Linux slide in → Python snake slithers across them.
+* Tagline text fades in: “Write once, run anywhere.”
+
+---
+
+### 🧩 Part 3 — *Langage interprété, compilé ou de script ?* (Person 3)
+
+**Goal:** this is *where you flex Manim the most*.
+
+**🔹 Scene 1 – “Processus d’exécution”**
+Make a **flow diagram animation**:
+
+```
+Code Source → Bytecode (.pyc) → PVM → Résultat
+```
+
+* Each arrow glows sequentially.
+* Bytecode represented with hex/machine symbols fading behind it.
+* The “Résultat” node glows brighter at the end.
+
+**🔹 Scene 2 – “Interprété vs Compilé”**
+
+* Split screen:
+
+  * Left: “Compilation” path (Source → Compiler → Executable)
+  * Right: “Interprétation” path (Source → Interpréteur → Résultat)
+* Animate both flows simultaneously, showing Python’s path highlighted.
+
+**🔹 Scene 3 – “Langage de script”**
+
+* Show a robot arm typing on a terminal.
+* Code executes automatically (“Automatisation” text appears).
+
+---
+
+### 🌍 Part 4 — *Domaines d’utilisation* (You 🔥)
+
+**Goal:** show *scope and versatility* — short dynamic scenes per domain.
+
+**🔹 Scene 1 – “Développement Web”**
+
+* Animate a quick build of a site wireframe.
+* Logos of Django/Flask appear with glow transitions.
+* Fade in small tags: “Backend”, “API”, “Serveur”.
+
+**🔹 Scene 2 – “IA & Machine Learning”**
+
+* Neuron nodes connecting dynamically → forming a neural network.
+* Brief text transform: “Data → Model → Intelligence”.
+
+**🔹 Scene 3 – “Data Science”**
+
+* Bar charts and scatter plots animate into view.
+* Add a transition like “raw CSV → clean graph”.
+
+**🔹 Scene 4 – “Automatisation”**
+
+* Terminal window typing automatically (`os.rename(...)`, `scraper.run()`).
+* Files/icons move around the screen to simulate automation.
+
+**🔹 Scene 5 – “Jeux Vidéo”**
+
+* Pygame logo appears → small pixel character jumps once or twice.
+
+**🔹 Scene 6 – “Autres Domaines”**
+
+* Rapid-fire transitions (cybersecurity lock → robot arm → dollar sign → chip).
+* End with the text: “Python = Couteau Suisse du Développeur 💡”
+
+---
+
+### 🧠 Part 5 — *Bonnes Pratiques* (Person 1 again)
+
+**Goal:** simple, illustrative code scenes.
+
+**🔹 Scene 1 – “Code lisible”**
+
+* Side-by-side animation:
+
+  * `x = 10` → fades out
+  * `age = 10` → slides in
+* Add a label: “Lisibilité ↑”.
+
+**🔹 Scene 2 – “Indentation correcte”**
+
+* Animate wrong indentation error popping (`IndentationError`) → fixes itself.
+
+**🔹 Scene 3 – “PEP 8”**
+
+* Green checkmarks appear on clean formatted code.
+
+---
+
+## 🎥 Technical setup tips
+
+* Use **Manim CE** (Community Edition).
+* Export as **.mp4** clips and embed into PowerPoint/Canva/Google Slides.
+* Keep each animation under **10–15 seconds** — just to visualize, not distract.
+* Transitions between clips = fade or slide (don’t overdo effects).
+

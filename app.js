@@ -1,82 +1,36 @@
-// Configuration - modify these paths according to your repo structure
+// Configuration
 const PODCASTS_PATH = 'podcasts/';
 const EXERCISES_PATH = '';
 
-let currentSection = 'podcasts';
-let currentAudio = null;
-let currentPodcastData = {};
-let currentPdfDoc = null;
-let currentPageNum = 1;
-let currentFilePath = '';
+// State Management
+const state = {
+    currentSection: 'classes',
+    currentAudio: null,
+    currentPodcastData: {},
+    currentPdfDoc: null,
+    currentPageNum: 1,
+    currentFilePath: '',
+    selectedClass: null
+};
 
-// PDF.js configuration
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-function showSection(section) {
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.closest('.nav-btn').classList.add('active');
-    document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-    document.getElementById(section).classList.add('active');
-    currentSection = section;
-
-    if (section === 'podcasts' && !document.getElementById('podcasts').querySelector('.podcast-list')) {
-        loadPodcasts();
-    } else if (section === 'files' && !document.getElementById('files').querySelector('.file-tree')) {
-        loadFiles();
-    }
-
-    closePodcastModal();
-    closeViewer();
+// PDF.js Configuration
+if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
+// Data
 const PODCAST_FILES = [
     { name: 'm101.mp3', title: 'Module 101' },
     { name: 'm102ch1-3.mp3', title: 'Module 102 Chapitre 1-3' },
     { name: 'm103ch1-2.mp3', title: 'Module 103 Chapitre 1-2' },
 ];
 
-function loadPodcasts() {
-    const podcastsContainer = document.getElementById('podcasts');
-    
-    if (PODCAST_FILES.length === 0) {
-        podcastsContainer.innerHTML = '<p style="text-align: center; color: #666;">No podcast files found.</p>';
-        return;
-    }
-
-    const listHTML = PODCAST_FILES.map((file) => {
-        const fileExtension = file.name.split('.').pop().toUpperCase();
-        return `
-            <div class="podcast-item" onclick="openPodcastModal('${file.name}', '${file.title}', '${fileExtension}')">
-                <div class="podcast-icon">
-                    <i class="fas fa-podcast"></i>
-                </div>
-                <div class="podcast-info">
-                    <div class="podcast-title">${file.title}</div>
-                    <div class="podcast-meta">
-                        <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
-                        <span><i class="fas fa-clock"></i> Click to play</span>
-                    </div>
-                </div>
-                <button class="play-button" onclick="event.stopPropagation(); openPodcastModal('${file.name}', '${file.title}', '${fileExtension}')">
-                    <i class="fas fa-play"></i>
-                </button>
-            </div>
-        `;
-    }).join('');
-
-    podcastsContainer.innerHTML = `
-        <div class="podcast-list">
-            <h2 style="margin-bottom: 20px; color: #333;">
-                <i class="fas fa-podcast"></i> Available Podcasts
-            </h2>
-            ${listHTML}
-        </div>
-    `;
-}
-
 const EXERCISE_STRUCTURE = [
     {
-        class: 'Classe 14 (Aberahman Salhi)',
+        id: 'c14',
+        class: 'Classe 14',
+        instructor: 'Abderahman Salhi',
         exercises: [
             {
                 name: 'TD1',
@@ -116,7 +70,9 @@ const EXERCISE_STRUCTURE = [
         ]
     },
     {
-        class: 'Classe 12 (Abdelkarim Kherimiche)',
+        id: 'c12',
+        class: 'Classe 12',
+        instructor: 'Abdelkarim Kherimiche',
         exercises: [
             {
                 name: 'TD1',
@@ -168,67 +124,11 @@ const EXERCISE_STRUCTURE = [
     }
 ];
 
-function loadFiles() {
-    const filesContainer = document.getElementById('files');
-    
-    if (EXERCISE_STRUCTURE.length === 0) {
-        filesContainer.innerHTML = '<p style="text-align: center; color: #666;">No exercise files found.</p>';
-        return;
-    }
-
-    let foldersHTML = '';
-    
-    EXERCISE_STRUCTURE.forEach(classItem => {
-        let exerciseHTML = '';
-        let totalFiles = 0;
-        
-        classItem.exercises.forEach(exercise => {
-            if (exercise && exercise.files && exercise.files.length > 0) {
-                totalFiles += exercise.files.length;
-                exerciseHTML += `
-                    <div class="folder" style="margin-left: 20px; margin-bottom: 10px;">
-                        <div class="folder-header" onclick="toggleFolder(this)" style="background: #f1f3f4;">
-                            <i class="fas fa-chevron-right folder-icon"></i>
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>${exercise.name}</span>
-                            <span style="margin-left: auto; font-size: 0.8rem; color: #666;">${exercise.files.length} files</span>
-                        </div>
-                        <div class="folder-content">
-                            ${exercise.files.map(file => `
-                                <div class="file-item" onclick="viewFile('${file.path}', '${file.name}')">
-                                    <i class="fas ${getFileIcon(file.path)}" style="color: ${file.isAnswer ? '#28a745' : '#6c757d'};"></i>
-                                    <span>${file.isAnswer ? '📝 ' : ''}${file.name}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-        });
-        
-        if (totalFiles > 0) {
-            foldersHTML += `
-                <div class="folder">
-                    <div class="folder-header" onclick="toggleFolder(this)">
-                        <i class="fas fa-chevron-right folder-icon"></i>
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>${classItem.class.toUpperCase()} - TD Exercises</span>
-                        <span style="margin-left: auto; font-size: 0.8rem; color: #666;">${totalFiles} files</span>
-                    </div>
-                    <div class="folder-content">
-                        ${exerciseHTML}
-                    </div>
-                </div>
-            `;
-        }
-    });
-
-    filesContainer.innerHTML = `
-        <div class="file-tree">
-            <h2 style="margin-bottom: 20px; color: #333;"><i class="fas fa-folder-open"></i> Exercise Files</h2>
-            ${foldersHTML}
-        </div>
-    `;
+// Utility Functions
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
 function getFileIcon(path) {
@@ -239,79 +139,238 @@ function getFileIcon(path) {
     return 'fa-file';
 }
 
-function toggleFolder(header) {
-    header.parentElement.classList.toggle('open');
+// Custom Modal
+class Modal {
+    constructor() {
+        this.overlay = document.getElementById('customModal');
+        this.title = document.getElementById('modalTitle');
+        this.body = document.getElementById('modalBody');
+        this.actions = document.getElementById('modalActions');
+        this.closeBtn = this.overlay.querySelector('.modal-close');
+        
+        this.closeBtn.addEventListener('click', () => this.close());
+        this.overlay.addEventListener('click', (e) => {
+            if (e.target === this.overlay) this.close();
+        });
+    }
+
+    show(title, content, buttons = []) {
+        this.title.textContent = title;
+        this.body.innerHTML = content;
+        
+        this.actions.innerHTML = buttons.map(btn => `
+            <button class="btn ${btn.primary ? 'btn-primary' : 'btn-secondary'}" 
+                    data-action="${btn.action}">
+                ${btn.text}
+            </button>
+        `).join('');
+        
+        this.actions.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const action = btn.dataset.action;
+                const button = buttons.find(b => b.action === action);
+                if (button && button.callback) button.callback();
+                this.close();
+            });
+        });
+        
+        this.overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+        this.overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
 
-async function openPodcastModal(fileName, displayName, fileExtension) {
-    const modal = document.getElementById('podcast-modal');
-    const audio = document.getElementById('modal-audio');
-    const audioUrl = `${PODCASTS_PATH}${fileName}`;
-    const transcriptUrl = `${PODCASTS_PATH}${fileName.replace(/\.[^/.]+$/, '')}.json`;
+const modal = new Modal();
+
+// Navigation
+function initNavigation() {
+    const navItems = document.querySelectorAll('.nav-item:not([href])');
     
-    document.getElementById('modal-podcast-title').textContent = displayName;
-    document.getElementById('modal-podcast-meta').innerHTML = `
-        <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
-        <span><i class="fas fa-clock"></i> Loading...</span>
-    `;
-    document.getElementById('modal-download').onclick = () => {
-        const a = document.createElement('a');
-        a.href = audioUrl;
-        a.download = fileName;
-        a.click();
-    };
-    
-    audio.src = audioUrl;
-    currentAudio = audio;
-    
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    document.title = `${displayName} - IA103 Podcasts`;
-    
-    await loadTranscript(transcriptUrl, displayName);
-    setupAudioPlayer();
-    
-    audio.addEventListener('loadedmetadata', () => {
-        const duration = formatTime(audio.duration);
-        document.getElementById('modal-podcast-meta').innerHTML = `
-            <span><i class="fas fa-file-audio"></i> ${fileExtension}</span>
-            <span><i class="fas fa-clock"></i> ${duration}</span>
-        `;
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const section = item.dataset.section;
+            showSection(section);
+        });
     });
 }
 
-async function loadTranscript(transcriptUrl, podcastName) {
-    const container = document.getElementById('transcript-text');
+function showSection(sectionName) {
+    state.currentSection = sectionName;
+    
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.section === sectionName);
+    });
+    
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.toggle('active', section.id === sectionName);
+    });
+    
+    if (sectionName === 'podcasts' && !document.querySelector('.podcast-container').hasChildNodes()) {
+        loadPodcasts();
+    }
+}
+
+// Class Selection
+function initClassSelection() {
+    const classCards = document.querySelectorAll('.class-card');
+    
+    classCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const classId = card.dataset.class;
+            selectClass(classId);
+        });
+    });
+}
+
+function selectClass(classId) {
+    state.selectedClass = classId;
+    const classData = EXERCISE_STRUCTURE.find(c => c.id === classId);
+    
+    if (!classData) return;
+    
+    showSection('exercises');
+    loadExercises(classData);
+}
+
+// Podcasts
+function loadPodcasts() {
+    const container = document.querySelector('.podcast-container');
+    
+    if (PODCAST_FILES.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No podcasts available.</p>';
+        return;
+    }
+    
+    container.innerHTML = PODCAST_FILES.map(podcast => `
+        <div class="podcast-item" data-file="${podcast.name}">
+            <div class="podcast-icon">
+                <i class="fas fa-podcast"></i>
+            </div>
+            <div class="podcast-info">
+                <div class="podcast-title">${podcast.title}</div>
+                <div class="podcast-meta">
+                    <span><i class="fas fa-file-audio"></i> MP3</span>
+                    <span><i class="fas fa-clock"></i> Click to play</span>
+                </div>
+            </div>
+            <button class="play-btn">
+                <i class="fas fa-play"></i>
+            </button>
+        </div>
+    `).join('');
+    
+    container.querySelectorAll('.podcast-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const fileName = item.dataset.file;
+            const podcast = PODCAST_FILES.find(p => p.name === fileName);
+            openPodcastPlayer(fileName, podcast.title);
+        });
+    });
+}
+
+// Podcast Player
+async function openPodcastPlayer(fileName, title) {
+    const modal = document.getElementById('playerModal');
+    const audio = document.getElementById('audioPlayer');
+    const audioUrl = `${PODCASTS_PATH}${fileName}`;
+    const transcriptUrl = `${PODCASTS_PATH}${fileName.replace(/\.[^/.]+$/, '')}.json`;
+    
+    document.getElementById('playerTitle').textContent = title;
+    document.getElementById('playerMeta').textContent = 'Loading...';
+    
+    audio.src = audioUrl;
+    state.currentAudio = audio;
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    setupAudioControls();
+    await loadTranscript(transcriptUrl);
+    
+    audio.addEventListener('loadedmetadata', () => {
+        document.getElementById('playerMeta').textContent = 
+            `Duration: ${formatTime(audio.duration)}`;
+    });
+}
+
+function setupAudioControls() {
+    const audio = state.currentAudio;
+    const playPauseBtn = document.getElementById('playPause');
+    const downloadBtn = document.getElementById('downloadAudio');
+    const progressTrack = document.querySelector('.progress-track');
+    const progressFill = document.querySelector('.progress-fill');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    
+    playPauseBtn.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    });
+    
+    downloadBtn.addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href = audio.src;
+        a.download = audio.src.split('/').pop();
+        a.click();
+    });
+    
+    audio.addEventListener('timeupdate', () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${progress}%`;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        updateTranscriptHighlight(audio.currentTime);
+    });
+    
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = formatTime(audio.duration);
+    });
+    
+    progressTrack.addEventListener('click', (e) => {
+        const rect = progressTrack.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pos * audio.duration;
+    });
+}
+
+async function loadTranscript(transcriptUrl) {
+    const container = document.getElementById('transcriptContent');
     
     try {
         const response = await fetch(transcriptUrl);
         if (!response.ok) {
-            container.innerHTML = '<p style="text-align: center; color: #666;">No transcript available for this podcast.</p>';
+            container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No transcript available.</p>';
             return;
         }
         
-        const transcriptData = await response.json();
-        currentPodcastData = transcriptData;
+        const data = await response.json();
+        state.currentPodcastData = data;
         
-        document.getElementById('stat-language').textContent = 
-            `${transcriptData.language_code || 'Unknown'} (${(transcriptData.language_probability * 100 || 0).toFixed(1)}%)`;
-        document.getElementById('stat-confidence').textContent = 
-            `${(transcriptData.language_probability * 100 || 0).toFixed(1)}%`;
-        document.getElementById('stat-id').textContent = 
-            transcriptData.transcription_id || 'N/A';
+        document.getElementById('statLanguage').textContent = 
+            `${data.language_code || 'Unknown'} (${(data.language_probability * 100 || 0).toFixed(1)}%)`;
+        document.getElementById('statConfidence').textContent = 
+            `${(data.language_probability * 100 || 0).toFixed(1)}%`;
         
-        renderTranscript(transcriptData.words || []);
+        renderTranscript(data.words || []);
     } catch (error) {
         console.error('Error loading transcript:', error);
-        container.innerHTML = '<p style="text-align: center; color: #e74c3c;">Error loading transcript.</p>';
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Error loading transcript.</p>';
     }
 }
 
 function renderTranscript(words) {
-    const container = document.getElementById('transcript-text');
+    const container = document.getElementById('transcriptContent');
     
     if (!words || words.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #666;">No transcript data available.</p>';
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No transcript data available.</p>';
         return;
     }
     
@@ -319,11 +378,9 @@ function renderTranscript(words) {
     let currentSpeaker = null;
     let currentSegment = [];
     
-    words.forEach((word) => {
+    words.forEach(word => {
         if (word.type === 'spacing') {
-            if (currentSegment.length > 0) {
-                currentSegment.push(word);
-            }
+            if (currentSegment.length > 0) currentSegment.push(word);
             return;
         }
         
@@ -357,39 +414,34 @@ function renderTranscript(words) {
         return (aFirstWord?.start || 0) - (bFirstWord?.start || 0);
     });
     
-    const segmentsHTML = allSegments.map(({ speakerId, segment }) => {
+    container.innerHTML = allSegments.map(({ speakerId, segment }) => {
         const speakerNum = speakerId.replace('speaker_', '');
-        const speakerClass = `speaker-${parseInt(speakerNum) % 2}`;
-        
-        const wordsHTML = segment.map((word) => {
+        const wordsHTML = segment.map(word => {
             if (word.type === 'spacing') {
                 return word.text || ' ';
-            } else {
-                return `<span class="transcript-word" data-start="${word.start}" data-end="${word.end}" onclick="seekToTime(${word.start})">${word.text}</span>`;
             }
+            return `<span class="transcript-word" data-start="${word.start}" data-end="${word.end}">${word.text}</span>`;
         }).join('');
         
         return `
-            <div class="speaker-segment ${speakerClass}">
+            <div class="speaker-segment">
                 <div class="speaker-header">
                     <span class="speaker-icon">${parseInt(speakerNum) + 1}</span>
                     Speaker ${parseInt(speakerNum) + 1}
                 </div>
-                <div class="speaker-content">
-                    ${wordsHTML}
-                </div>
+                <div class="speaker-content">${wordsHTML}</div>
             </div>
         `;
     }).join('');
     
-    container.innerHTML = segmentsHTML;
-}
-
-function setupAudioPlayer() {
-    if (!currentAudio) return;
-    
-    currentAudio.addEventListener('timeupdate', () => {
-        updateTranscriptHighlight(currentAudio.currentTime);
+    container.querySelectorAll('.transcript-word').forEach(word => {
+        word.addEventListener('click', () => {
+            const time = parseFloat(word.dataset.start);
+            if (state.currentAudio) {
+                state.currentAudio.currentTime = time;
+                if (state.currentAudio.paused) state.currentAudio.play();
+            }
+        });
     });
 }
 
@@ -404,121 +456,164 @@ function updateTranscriptHighlight(currentTime) {
         
         if (currentTime >= start && currentTime <= end) {
             word.classList.add('active');
-            word.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
+            word.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else if (currentTime > end) {
             word.classList.add('played');
         }
     });
 }
 
-function seekToTime(time) {
-    if (currentAudio) {
-        currentAudio.currentTime = time;
-        if (currentAudio.paused) {
-            currentAudio.play();
-        }
-    }
-}
-
-function toggleStats() {
-    const stats = document.getElementById('transcript-stats');
-    const button = document.getElementById('stats-toggle');
-    
-    if (stats.classList.contains('active')) {
-        stats.classList.remove('active');
-        button.innerHTML = '<i class="fas fa-chart-bar"></i> Stats';
-    } else {
-        stats.classList.add('active');
-        button.innerHTML = '<i class="fas fa-eye-slash"></i> Hide';
-    }
-}
-
-function closePodcastModal() {
-    const modal = document.getElementById('podcast-modal');
+function closePodcastPlayer() {
+    const modal = document.getElementById('playerModal');
     modal.classList.remove('active');
     document.body.style.overflow = '';
     
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
+    if (state.currentAudio) {
+        state.currentAudio.pause();
+        state.currentAudio.currentTime = 0;
     }
     
-    const stats = document.getElementById('transcript-stats');
-    const button = document.getElementById('stats-toggle');
-    stats.classList.remove('active');
-    button.innerHTML = '<i class="fas fa-chart-bar"></i> Stats';
+    const playPauseBtn = document.getElementById('playPause');
+    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
 }
 
-function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+// Exercises
+function loadExercises(classData) {
+    const container = document.querySelector('.exercise-container');
+    
+    const totalFiles = classData.exercises.reduce((sum, ex) => sum + ex.files.length, 0);
+    
+    container.innerHTML = `
+        <div class="exercise-group open">
+            <div class="group-header">
+                <div class="group-title">
+                    <i class="fas fa-chevron-right chevron-icon"></i>
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>${classData.class} - ${classData.instructor}</h3>
+                </div>
+                <span class="group-count">${totalFiles} files</span>
+            </div>
+            <div class="group-content">
+                ${classData.exercises.map(td => `
+                    <div class="td-item">
+                        <div class="td-header">
+                            <div class="td-name">
+                                <i class="fas fa-chevron-right chevron-icon"></i>
+                                <span>${td.name}</span>
+                            </div>
+                            <span class="group-count">${td.files.length} files</span>
+                        </div>
+                        <div class="td-files">
+                            ${td.files.map(file => `
+                                <div class="file-link ${file.isAnswer ? 'answer' : ''}" 
+                                     data-path="${file.path}">
+                                    <i class="fas ${getFileIcon(file.path)}"></i>
+                                    <span>${file.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    
+    container.querySelectorAll('.group-header').forEach(header => {
+        header.addEventListener('click', () => {
+            header.parentElement.classList.toggle('open');
+        });
+    });
+    
+    container.querySelectorAll('.td-header').forEach(header => {
+        header.addEventListener('click', () => {
+            header.parentElement.classList.toggle('open');
+        });
+    });
+    
+    container.querySelectorAll('.file-link').forEach(link => {
+        link.addEventListener('click', () => {
+            const path = link.dataset.path;
+            const name = link.querySelector('span').textContent;
+            viewFile(path, name);
+        });
+    });
 }
 
+// File Viewer
 async function viewFile(filePath, fileName) {
-    currentFilePath = `${EXERCISES_PATH}${filePath}`;
+    state.currentFilePath = `${EXERCISES_PATH}${filePath}`;
     const ext = filePath.split('.').pop().toLowerCase();
     
-    document.getElementById('viewer-title').textContent = fileName;
-    const viewerContent = document.getElementById('viewer-content');
-    const downloadBtn = document.getElementById('download-btn');
+    document.getElementById('viewerTitle').textContent = fileName;
+    const viewerContent = document.getElementById('viewerContent');
+    const downloadBtn = document.getElementById('viewerDownload');
     
-    downloadBtn.style.display = 'flex';
     downloadBtn.onclick = () => {
         const a = document.createElement('a');
-        a.href = currentFilePath;
+        a.href = state.currentFilePath;
         a.download = fileName;
         a.click();
     };
     
-    viewerContent.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading file...</p></div>';
+    viewerContent.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>Loading file...</p></div>';
     
     try {
         if (ext === 'pdf') {
-            await renderPDF(currentFilePath);
+            await renderPDF(state.currentFilePath);
         } else if (['jpg', 'jpeg', 'png', 'gif', 'svg'].includes(ext)) {
-            renderImage(currentFilePath, fileName);
+            renderImage(state.currentFilePath, fileName);
         } else if (ext === 'md') {
-            await renderMarkdown(currentFilePath);
+            await renderMarkdown(state.currentFilePath);
         } else {
-            const response = await fetch(currentFilePath);
+            const response = await fetch(state.currentFilePath);
             const content = await response.text();
-            viewerContent.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit; background: white; padding: 20px; border-radius: 10px;">${content}</pre>`;
+            viewerContent.innerHTML = `<pre style="white-space: pre-wrap; background: var(--surface-light); padding: 2rem; border-radius: 12px; border: 1px solid var(--border);">${content}</pre>`;
         }
         
-        document.getElementById('file-viewer').classList.add('active');
+        document.getElementById('viewerModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     } catch (error) {
         console.error('Error loading file:', error);
-        viewerContent.innerHTML = '<p style="text-align: center; color: #e74c3c; padding: 40px;">Error loading file. Please check if the file exists.</p>';
+        viewerContent.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 3rem;">Error loading file.</p>';
     }
 }
 
 async function renderPDF(url) {
-    const viewerContent = document.getElementById('viewer-content');
+    const viewerContent = document.getElementById('viewerContent');
     viewerContent.innerHTML = `
         <div class="pdf-container">
             <div class="pdf-controls">
-                <button onclick="changePDFPage(-1)" id="pdf-prev">Previous</button>
+                <button id="pdf-prev">Previous</button>
                 <span><span id="pdf-page-num">1</span> / <span id="pdf-page-count">-</span></span>
-                <button onclick="changePDFPage(1)" id="pdf-next">Next</button>
+                <button id="pdf-next">Next</button>
             </div>
             <canvas id="pdf-canvas"></canvas>
         </div>
     `;
     
     const loadingTask = pdfjsLib.getDocument(url);
-    currentPdfDoc = await loadingTask.promise;
-    document.getElementById('pdf-page-count').textContent = currentPdfDoc.numPages;
-    currentPageNum = 1;
-    renderPDFPage(currentPageNum);
+    state.currentPdfDoc = await loadingTask.promise;
+    document.getElementById('pdf-page-count').textContent = state.currentPdfDoc.numPages;
+    state.currentPageNum = 1;
+    await renderPDFPage(1);
+    
+    document.getElementById('pdf-prev').addEventListener('click', () => {
+        if (state.currentPageNum > 1) {
+            state.currentPageNum--;
+            renderPDFPage(state.currentPageNum);
+        }
+    });
+    
+    document.getElementById('pdf-next').addEventListener('click', () => {
+        if (state.currentPageNum < state.currentPdfDoc.numPages) {
+            state.currentPageNum++;
+            renderPDFPage(state.currentPageNum);
+        }
+    });
 }
 
 async function renderPDFPage(num) {
-    const page = await currentPdfDoc.getPage(num);
+    const page = await state.currentPdfDoc.getPage(num);
     const canvas = document.getElementById('pdf-canvas');
     const ctx = canvas.getContext('2d');
     
@@ -533,16 +628,11 @@ async function renderPDFPage(num) {
     
     document.getElementById('pdf-page-num').textContent = num;
     document.getElementById('pdf-prev').disabled = num <= 1;
-    document.getElementById('pdf-next').disabled = num >= currentPdfDoc.numPages;
-}
-
-function changePDFPage(delta) {
-    currentPageNum += delta;
-    renderPDFPage(currentPageNum);
+    document.getElementById('pdf-next').disabled = num >= state.currentPdfDoc.numPages;
 }
 
 function renderImage(url, alt) {
-    const viewerContent = document.getElementById('viewer-content');
+    const viewerContent = document.getElementById('viewerContent');
     viewerContent.innerHTML = `
         <div class="image-container">
             <img src="${url}" alt="${alt}" />
@@ -553,9 +643,7 @@ function renderImage(url, alt) {
 async function renderMarkdown(url) {
     const response = await fetch(url);
     const content = await response.text();
-    const viewerContent = document.getElementById('viewer-content');
-    
-    // Get the base path of the markdown file
+    const viewerContent = document.getElementById('viewerContent');
     const basePath = url.substring(0, url.lastIndexOf('/') + 1);
     
     marked.setOptions({
@@ -566,79 +654,80 @@ async function renderMarkdown(url) {
     const htmlContent = marked.parse(content);
     viewerContent.innerHTML = `<div class="markdown-content">${htmlContent}</div>`;
     
-    // Fix relative image paths
     const images = viewerContent.querySelectorAll('.markdown-content img');
     images.forEach(img => {
         const src = img.getAttribute('src');
-        // Only fix relative paths (not absolute URLs or data URIs)
-        if (src && !src.startsWith('http://') && !src.startsWith('https://') && !src.startsWith('data:') && !src.startsWith('/')) {
+        if (src && !src.startsWith('http://') && !src.startsWith('https://') && 
+            !src.startsWith('data:') && !src.startsWith('/')) {
             img.setAttribute('src', basePath + src);
         }
     });
     
-    mermaid.initialize({ 
-        startOnLoad: false,
-        theme: 'default',
-        securityLevel: 'loose',
-        fontFamily: 'Segoe UI, sans-serif',
-        er: {
-            useMaxWidth: true
-        }
-    });
-    
-    const mermaidBlocks = viewerContent.querySelectorAll('pre code.language-mermaid');
-    
-    for (let i = 0; i < mermaidBlocks.length; i++) {
-        const block = mermaidBlocks[i];
-        const mermaidCode = block.textContent;
-        const pre = block.parentElement;
+    if (typeof mermaid !== 'undefined') {
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'dark',
+            securityLevel: 'loose'
+        });
         
-        const mermaidDiv = document.createElement('div');
-        mermaidDiv.className = 'mermaid-diagram';
-        const uniqueId = `mermaid-${Date.now()}-${i}`;
-        mermaidDiv.id = uniqueId;
+        const mermaidBlocks = viewerContent.querySelectorAll('pre code.language-mermaid');
         
-        pre.replaceWith(mermaidDiv);
-        
-        try {
-            const { svg } = await mermaid.render(uniqueId + '-svg', mermaidCode);
-            mermaidDiv.innerHTML = svg;
-        } catch (error) {
-            console.error('Mermaid rendering error:', error);
-            mermaidDiv.innerHTML = `<pre style="color: #e74c3c; background: #fee; padding: 15px; border-radius: 8px;">Error rendering diagram: ${error.message}\n\nDiagram code:\n${mermaidCode}</pre>`;
+        for (let i = 0; i < mermaidBlocks.length; i++) {
+            const block = mermaidBlocks[i];
+            const mermaidCode = block.textContent;
+            const pre = block.parentElement;
+            const mermaidDiv = document.createElement('div');
+            mermaidDiv.className = 'mermaid-diagram';
+            const uniqueId = `mermaid-${Date.now()}-${i}`;
+            mermaidDiv.id = uniqueId;
+            pre.replaceWith(mermaidDiv);
+            
+            try {
+                const { svg } = await mermaid.render(uniqueId + '-svg', mermaidCode);
+                mermaidDiv.innerHTML = svg;
+            } catch (error) {
+                mermaidDiv.innerHTML = `<pre style="color: var(--error);">Error rendering diagram</pre>`;
+            }
         }
     }
 }
 
 function closeViewer() {
-    document.getElementById('file-viewer').classList.remove('active');
+    document.getElementById('viewerModal').classList.remove('active');
     document.body.style.overflow = '';
-    currentPdfDoc = null;
-    currentPageNum = 1;
+    state.currentPdfDoc = null;
+    state.currentPageNum = 1;
 }
 
-document.getElementById('podcast-modal').addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal-overlay')) {
-        closePodcastModal();
-    }
+// Event Listeners
+document.getElementById('playerClose')?.addEventListener('click', closePodcastPlayer);
+document.getElementById('viewerClose')?.addEventListener('click', closeViewer);
+
+document.getElementById('statsToggle')?.addEventListener('click', () => {
+    const stats = document.getElementById('transcriptStats');
+    stats.classList.toggle('active');
 });
 
-document.getElementById('file-viewer').addEventListener('click', (e) => {
-    if (e.target.classList.contains('file-viewer')) {
-        closeViewer();
-    }
+document.getElementById('playerModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'playerModal') closePodcastPlayer();
+});
+
+document.getElementById('viewerModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'viewerModal') closeViewer();
 });
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        if (document.getElementById('podcast-modal').classList.contains('active')) {
-            closePodcastModal();
-        } else if (document.getElementById('file-viewer').classList.contains('active')) {
+        if (document.getElementById('playerModal')?.classList.contains('active')) {
+            closePodcastPlayer();
+        } else if (document.getElementById('viewerModal')?.classList.contains('active')) {
             closeViewer();
         }
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadPodcasts();
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    initNavigation();
+    initClassSelection();
 });

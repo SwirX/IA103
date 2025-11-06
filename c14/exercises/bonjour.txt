@@ -1,0 +1,3 @@
+Bonjour
+Je decouvre la gestion des fichiers en python
+C'est facile d'ecrire dans un fichier
