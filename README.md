@@ -1,27 +1,28 @@
 # IA103  
 
-Cette repo contient mes réponses et travaux pour **IA103**.
-L’organisation est faite par **classe** (ex. `c14`, `c12`), puis par type de travaux (ex. `TD`), et enfin par numéro de TD.  
+This repo contains my answers and work for **IA103**.
+The organization is done by **class** (eg: `c12`, `c14`), then by type of work (eg: `TD`), and lastly by the
+number of the "TD"
 
 ---
 
-## 📂 Structure du repo
+## 📂 Structure of the repo
 
 ```txt
 
 IA103/
 │
-├── c14/                  # Classe 14 (Formateur 1)
+├── c14/                  # Class 14 (Trainer 1)
 │   └── TD/
 │       ├── 1/            # TD1
 │       │   ├── answers/
-│       │   │   ├── answer.md        # Mes réponses en Markdown
-│       │   │   └── ...              # Autres fichiers...
-│       │   └── original/ # Énoncé ou fichier original du formateur
+│       │   │   ├── answer.md        # My answers in Markdown
+│       │   │   └── ...              # other files...
+│       │   └── original/ # Original File given by the Trainer
 │       ├── 2/
 │       └── ...
 │
-├── c12/                  # Classe 12 (Formateur 2)
+├── c12/                  # Class 12 (Trainer 2)
 │   └── TD/
 │       ├── 1/
 │       │   └── TD1.md
@@ -35,23 +36,23 @@ IA103/
 
 ---
 
-## 🗂️ Organisation  
+## 🗂️ Organization
 
-- Chaque **classe** a son propre dossier (`c14`, `c12`).  
-- À l’intérieur, un dossier `TD` contient tous les travaux dirigés.  
-- Chaque **TD** a un numéro (`1`, `2`, …) et contient :  
-  - `answers/` → mes réponses, toujours au format **Markdown** (`.md`).  
-    - Les réponses incluent du texte, du code (dans des blocs Markdown) et des images intégrées.  
-  - `original/` → fichier(s) d’origine donnés par le formateur (énoncé, consignes, etc.).  
+- Each **class** has it own folder (`c14`, `c12`).  
+- Inside each, a folder `TD` containing all the Exercises.  
+- Each **TD** has a number (`1`, `2`, …) and contains :  
+  - `answers/` → my answers in markdown (`.md`).  
+    - My answers include text and code (in Markdown Code Blocks) and integrated images.  
+  - `original/` → Original file(s) given by the trainer (statement, instructions, etc...).  
   
 ---
 
-## 🎯 Objectif  
+## 🎯 Objective  
 
-- Centraliser et organiser mes solutions de TD.  
-- Permettre une lecture directe sur GitHub (Markdown + images).  
-- Faciliter la révision et le partage avec mes camarades de classe.  
+- Centralize and organize my solutions of lessons and exercises.
+- Allow direct reading on GitHub.
+- Facilitate the revision and sharing with my collegues.
 
 ---
 
-✍️ *Auteur : Ali Bouyakhsass (Groupe IA103)*
+✍️ *Author : Ali Bouyakhsass (Group IA103)*
